@@ -1,0 +1,107 @@
+name: Daily Gulf Aviation Update
+
+on:
+  schedule:
+    # Run every morning at 06:00 UTC (09:00 Gulf time)
+    - cron: '0 6 * * *'
+  # Also allow manual trigger from GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      force_commit:
+        description: 'Force commit even if no new entries'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['true', 'false']
+      dry_run:
+        description: 'Dry run — extract but do not write files'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['true', 'false']
+
+# Allow the workflow to write to the repo (for git push)
+permissions:
+  contents: write
+
+jobs:
+  update:
+    name: Collect Aviation Updates & Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      # ── 1. Checkout repo ──────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 2. Setup Python ───────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # ── 3. Install dependencies ───────────────────────────────────────
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install anthropic requests python-dotenv
+
+      # ── 4. Configure git identity ─────────────────────────────────────
+      - name: Configure git
+        run: |
+          git config user.name  "Gulf Aviation Bot"
+          git config user.email "gulf-aviation-bot@users.noreply.github.com"
+
+      # ── 5. Run update script ──────────────────────────────────────────
+      - name: Run aviation update
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SERPER_API_KEY:    ${{ secrets.SERPER_API_KEY }}
+          GIT_REPO_PATH:     ${{ github.workspace }}
+          MAX_AGE_DAYS:      "45"
+        run: |
+          FLAGS=""
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            FLAGS="$FLAGS --dry-run"
+          fi
+          if [ "${{ github.event.inputs.force_commit }}" = "true" ]; then
+            FLAGS="$FLAGS --force-commit"
+          fi
+          python scripts/update.py $FLAGS
+
+      # ── 6. Push changes (update.py handles git, but fallback here) ────
+      - name: Push data changes
+        run: |
+          if git diff --cached --quiet; then
+            echo "Nothing staged — checking unstaged changes"
+            git add data/
+            if git diff --cached --quiet; then
+              echo "No changes to push"
+            else
+              git commit -m "Daily Gulf aviation update — $(date -u +%Y-%m-%d)"
+              git push
+            fi
+          else
+            git push || true
+          fi
+
+  # ── Notification job on failure ────────────────────────────────────────
+  notify-failure:
+    name: Notify on failure
+    runs-on: ubuntu-latest
+    needs: update
+    if: failure()
+    steps:
+      - name: Log failure
+        run: |
+          echo "Gulf Aviation update workflow FAILED at $(date -u)"
+          echo "Check the Actions log for details."
+          # Add Slack/email webhook here if desired:
+          # curl -X POST -H 'Content-type: application/json' \
+          #   --data '{"text":"⚠️ Gulf Aviation Tracker update failed!"}' \
+          #   ${{ secrets.SLACK_WEBHOOK_URL }}
