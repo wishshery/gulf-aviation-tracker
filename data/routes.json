@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-10T06:00:00Z",
+  "last_updated": "2026-03-10T20:29:14.295080+00:00",
   "routes": [
     {
       "id": "r001",
@@ -105,20 +105,6 @@
       "description": "Saudia suspended Jeddah–Beirut service pending review. Passengers affected are being rerouted via Cairo or Amman with partner carriers.",
       "source": "https://www.saudia.com/en/info/travel-alerts",
       "added_date": "2026-02-21"
-    },
-    {
-      "id": "r009",
-      "airline": "Emirates",
-      "origin": "Dubai",
-      "destination": "Conakry",
-      "status": "suspended",
-      "start_date": null,
-      "suspension_date": "2026-01-15",
-      "frequency": null,
-      "aircraft": null,
-      "description": "Emirates suspended Dubai–Conakry service due to insufficient load factors. Codeshare options remain available via Addis Ababa.",
-      "source": "https://www.emirates.com/media-centre/route-updates",
-      "added_date": "2026-01-16"
     },
     {
       "id": "r010",
