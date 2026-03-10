@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-10T20:29:14Z",
+  "last_updated": "2026-03-10T21:36:05.312773+00:00",
   "flights": [
     {
       "id": "ukp001",
@@ -229,7 +229,7 @@
       "status": "operating",
       "frequency": "Daily",
       "aircraft": "Airbus A330 / Boeing 787",
-      "notes": "Operating normally via Istanbul Atat\u00fcrk. LHR–IST–ISB. Also covers LHE and KHI connections.",
+      "notes": "Operating normally via Istanbul Atatürk. LHR–IST–ISB. Also covers LHE and KHI connections.",
       "source": "https://www.turkishairlines.com/",
       "added_date": "2026-03-10"
     },
