@@ -1,0 +1,89 @@
+{
+  "last_updated": "2026-03-10T06:00:00Z",
+  "advisories": [
+    {
+      "id": "adv001",
+      "type": "warning",
+      "title": "Airspace Advisory: Extended Routing Affecting Gulf-Europe Flights",
+      "body": "Several Gulf carriers including Emirates, Qatar Airways, and Etihad are operating on extended routing profiles affecting flights between Gulf airports and European destinations. Passengers should expect journey time increases of 50–90 minutes on selected routes. Check your airline's app for real-time flight updates.",
+      "airline": "Emirates, Qatar Airways, Etihad",
+      "airports": "DXB, DOH, AUH",
+      "effective_date": "2026-03-08",
+      "expiry_date": "2026-03-25",
+      "source": "https://www.gcaa.gov.ae/notam",
+      "added_date": "2026-03-08"
+    },
+    {
+      "id": "adv002",
+      "type": "info",
+      "title": "Dubai International: Terminal 2 Scheduled Maintenance",
+      "body": "Dubai International Airport Terminal 2 is undergoing scheduled infrastructure maintenance 22–26 March 2026. Some check-in desks will be consolidated. Flydubai passengers check-in is temporarily relocated to Hall A East. Allow additional 30 minutes when traveling through Terminal 2 during this period.",
+      "airline": "Flydubai, Air Arabia",
+      "airports": "DXB Terminal 2",
+      "effective_date": "2026-03-22",
+      "expiry_date": "2026-03-26",
+      "source": "https://www.dubaiairports.ae/passenger-notices",
+      "added_date": "2026-03-09"
+    },
+    {
+      "id": "adv003",
+      "type": "info",
+      "title": "Hamad International Airport: New Biometric Gates Operational",
+      "body": "Hamad International Airport has activated biometric fast-track immigration gates in Concourses B and C from 5 March 2026. Travelers with Qatar ID or pre-registered biometrics can use automated lanes, significantly reducing processing time.",
+      "airline": "Qatar Airways",
+      "airports": "DOH",
+      "effective_date": "2026-03-05",
+      "expiry_date": null,
+      "source": "https://www.qatarairports.com/news",
+      "added_date": "2026-03-05"
+    },
+    {
+      "id": "adv004",
+      "type": "warning",
+      "title": "Emirates: Schedule Adjustment — EK Flights via Nairobi",
+      "body": "Emirates has adjusted departure times for EK flight series operating via Nairobi effective 8 March – 30 April 2026 due to runway resurfacing work at JKIA. EK722 departs Dubai at 23:30 (was 22:00). EK723 departs Nairobi at 08:15 (was 06:30). Passengers should verify their itineraries.",
+      "airline": "Emirates",
+      "airports": "DXB, NBO",
+      "effective_date": "2026-03-08",
+      "expiry_date": "2026-04-30",
+      "source": "https://www.emirates.com/travel-updates/nairobi-schedule",
+      "added_date": "2026-03-07"
+    },
+    {
+      "id": "adv005",
+      "type": "critical",
+      "title": "Saudi Arabia: GACA Temporary Flight Restrictions — Northern Sectors",
+      "body": "The General Authority of Civil Aviation (GACA) has issued temporary flight restrictions in northern airspace sectors effective 10–20 March 2026. This affects routing for flights between Riyadh, Tabuk, and international destinations. Airlines are filing alternative routings. Passengers on Saudia and other carriers may experience delays of 20–40 minutes.",
+      "airline": "Saudia, flyadeal, Multiple International Carriers",
+      "airports": "RUH, TUU",
+      "effective_date": "2026-03-10",
+      "expiry_date": "2026-03-20",
+      "source": "https://www.gaca.gov.sa/notam",
+      "added_date": "2026-03-10"
+    },
+    {
+      "id": "adv006",
+      "type": "info",
+      "title": "King Abdulaziz International Airport: New International Terminal Gates",
+      "body": "Jeddah's King Abdulaziz International Airport has opened 12 additional remote stands in the International Terminal South pier, increasing peak-hour capacity by 15%. No passenger disruption is expected. Buses are in operation to remote stands G25–G36.",
+      "airline": "All carriers operating JED",
+      "airports": "JED",
+      "effective_date": "2026-03-01",
+      "expiry_date": null,
+      "source": "https://www.jed-airport.com/news",
+      "added_date": "2026-03-01"
+    },
+    {
+      "id": "adv007",
+      "type": "info",
+      "title": "Qatar Airways: Upgraded Summer Schedule 2026",
+      "body": "Qatar Airways has published its IATA Summer 2026 schedule with additions of over 15 new destinations and frequency increases on 40 existing routes. The summer schedule runs from 29 March through 24 October 2026. Passengers with existing bookings should verify connecting times as minimum connect time at DOH changes on 29 March.",
+      "airline": "Qatar Airways",
+      "airports": "DOH",
+      "effective_date": "2026-03-29",
+      "expiry_date": "2026-10-24",
+      "source": "https://www.qatarairways.com/summer2026",
+      "added_date": "2026-03-04"
+    }
+  ]
+}

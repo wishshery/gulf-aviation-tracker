@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="description" content="Live updates on airline routes, disruptions, and operational changes affecting travel to and from Gulf countries."/>
+  <meta name="keywords" content="Gulf aviation, airline routes, Dubai airport, Qatar Airways, Emirates, flight disruptions, Gulf airports"/>
+  <title>Gulf Aviation Route Tracker ✈️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#080d18;--surface:#0f1623;--surface2:#151f30;--surface3:#1a2540;
+      --border:#1e2d45;--border2:#243450;
+      --accent:#0ea5e9;--accent2:#38bdf8;--accent3:#7dd3fc;
+      --text:#e2e8f0;--text2:#94a3b8;--muted:#475569;
+      --green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--orange:#f97316;--purple:#a855f7;
+      --font:'Inter',system-ui,sans-serif;
+      --mono:'JetBrains Mono','Fira Code',monospace;
+      --r:10px;--shadow:0 8px 32px rgba(0,0,0,.5);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{color:var(--accent2);text-decoration:underline}
+    ::-webkit-scrollbar{width:6px;height:6px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+    .container{max-width:1320px;margin:0 auto;padding:0 1.25rem}
+    .section{padding:3rem 0}
+    .section+.section{border-top:1px solid var(--border)}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:200;background:rgba(8,13,24,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem 0;flex-wrap:wrap}
+    .nav-brand{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:1.05rem;letter-spacing:-.02em}
+    .nav-brand .ac{color:var(--accent)}
+    .pill{background:var(--accent);color:#fff;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:.04em;animation:blink 2.5s ease-in-out infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+    .nav-links{display:flex;gap:1.25rem;list-style:none;font-size:.82rem}
+    .nav-links a{color:var(--text2);transition:color .15s}
+    .nav-links a:hover{color:var(--accent);text-decoration:none}
+
+    /* HERO */
+    .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+    .hero-img-wrap{position:relative;max-height:320px;overflow:hidden}
+    .hero-img-wrap img{width:100%;height:320px;object-fit:cover;object-position:center;display:block}
+    .hero-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,13,24,.2) 0%,rgba(8,13,24,.5) 50%,rgba(8,13,24,.95) 100%)}
+    .hero-body{
+      background:linear-gradient(180deg,transparent,var(--bg) 20px);
+      padding:2rem 0 2.5rem;
+    }
+    .hero-tag{display:inline-flex;align-items:center;gap:.4rem;background:rgba(14,165,233,.12);border:1px solid rgba(14,165,233,.25);color:var(--accent2);font-size:.75rem;font-weight:600;padding:3px 12px;border-radius:999px;margin-bottom:.9rem;letter-spacing:.04em}
+    h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;letter-spacing:-.03em;line-height:1.1}
+    .hero-sub{color:var(--text2);font-size:1rem;margin:.65rem 0 1.3rem;max-width:55ch}
+    .hero-chips{display:flex;flex-wrap:wrap;gap:.5rem}
+    .chip{display:flex;align-items:center;gap:.35rem;background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--text2);font-size:.78rem;padding:4px 12px;border-radius:999px}
+    .chip-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 7px var(--green)}
+    .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:1.5rem}
+    .hstat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;text-align:center;transition:border-color .2s}
+    .hstat:hover{border-color:var(--accent)}
+    .hstat-num{font-family:var(--mono);font-size:1.8rem;font-weight:900;line-height:1}
+    .n-red{color:var(--red)}.n-blue{color:var(--accent)}.n-orange{color:var(--orange)}.n-green{color:var(--green)}
+    .hstat-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.3rem}
+
+    /* SECTION HEADER */
+    .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem}
+    .sh-l{display:flex;align-items:center;gap:.6rem}
+    .sh-icon{font-size:1.25rem}
+    .sh h2{font-size:1.15rem;font-weight:800;letter-spacing:-.01em}
+    .cb{font-size:.7rem;font-family:var(--mono);font-weight:600;background:var(--surface3);border:1px solid var(--border);color:var(--text2);padding:2px 9px;border-radius:999px}
+    .fr{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center}
+    .fsearch{background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:.82rem;padding:6px 14px;border-radius:999px;font-family:var(--font);outline:none;min-width:190px}
+    .fsearch::placeholder{color:var(--muted)}
+    .fsearch:focus{border-color:var(--accent)}
+    .fbtn{background:var(--surface);border:1px solid var(--border);color:var(--text2);font-size:.78rem;padding:5px 13px;border-radius:999px;cursor:pointer;transition:all .15s;font-family:var(--font)}
+    .fbtn:hover,.fbtn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+    /* BADGES */
+    .b{display:inline-flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+    .b::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0}
+    .b-green{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25)}.b-green::before{background:var(--green);box-shadow:0 0 6px var(--green)}
+    .b-yellow{background:rgba(245,158,11,.12);color:var(--yellow);border:1px solid rgba(245,158,11,.25)}.b-yellow::before{background:var(--yellow)}
+    .b-red{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}.b-red::before{background:var(--red);box-shadow:0 0 5px rgba(239,68,68,.5)}
+    .b-blue{background:rgba(14,165,233,.12);color:var(--accent);border:1px solid rgba(14,165,233,.25)}.b-blue::before{background:var(--accent)}
+    .b-orange{background:rgba(249,115,22,.12);color:var(--orange);border:1px solid rgba(249,115,22,.25)}.b-orange::before{background:var(--orange)}
+    .b-purple{background:rgba(168,85,247,.12);color:var(--purple);border:1px solid rgba(168,85,247,.25)}.b-purple::before{background:var(--purple)}
+
+    /* TABLE */
+    .tw{overflow-x:auto;border-radius:var(--r);border:1px solid var(--border)}
+    table{width:100%;border-collapse:collapse;font-size:.865rem}
+    thead{background:var(--surface2)}
+    thead th{padding:.7rem 1rem;text-align:left;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+    tbody tr{border-bottom:1px solid rgba(30,45,69,.4);transition:background .12s}
+    tbody tr:last-child{border-bottom:none}
+    tbody tr:hover{background:var(--surface2)}
+    td{padding:.75rem 1rem;vertical-align:middle}
+    .td-al{display:flex;align-items:center;gap:.55rem;font-weight:700}
+    .al-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .td-rt{font-family:var(--mono);font-size:.8rem;color:var(--accent2)}
+    .td-note{font-size:.78rem;color:var(--text2);max-width:290px;line-height:1.45}
+    .td-date{font-family:var(--mono);font-size:.75rem;color:var(--muted);white-space:nowrap}
+    .sl{font-size:.72rem;color:var(--muted)}.sl:hover{color:var(--accent)}
+
+    /* CARDS */
+    .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:1rem}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem;position:relative;overflow:hidden;transition:border-color .2s,transform .15s,box-shadow .2s}
+    .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px}
+    .card.cn::before{background:linear-gradient(90deg,var(--green),var(--accent))}
+    .card.cs::before{background:linear-gradient(90deg,var(--red),var(--orange))}
+    .card.cr::before{background:linear-gradient(90deg,var(--accent),var(--green))}
+    .card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 30px rgba(14,165,233,.1)}
+    .c-al{font-size:.75rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+    .c-rt{font-size:1rem;font-weight:800;color:var(--text);margin:.2rem 0;line-height:1.25}
+    .c-meta{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0;font-size:.76rem;color:var(--text2)}
+    .c-desc{font-size:.8rem;color:var(--text2);line-height:1.5;margin-top:.45rem}
+    .c-foot{margin-top:.75rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.35rem}
+    .c-date{font-size:.7rem;color:var(--muted);font-family:var(--mono)}
+
+    /* ADVISORIES */
+    .adv-list{display:grid;gap:.7rem}
+    .adv{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:1rem 1.25rem;border-left:3px solid var(--yellow);transition:border-color .2s}
+    .adv.info{border-left-color:var(--accent);border-color:rgba(14,165,233,.2)}
+    .adv.warning{border-left-color:var(--yellow);border-color:rgba(245,158,11,.2)}
+    .adv.critical{border-left-color:var(--red);border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.025)}
+    .adv-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.45rem}
+    .adv-title{font-size:.9rem;font-weight:700}
+    .adv-body{font-size:.82rem;color:var(--text2);line-height:1.55}
+    .adv-meta{display:flex;gap:.75rem;margin-top:.55rem;font-size:.72rem;color:var(--muted);flex-wrap:wrap}
+
+    /* AIRPORTS */
+    .ap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.85rem}
+    .ap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem;cursor:pointer;transition:border-color .2s,transform .15s,box-shadow .2s}
+    .ap:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow)}
+    .ap-iata{font-family:var(--mono);font-size:2.2rem;font-weight:900;color:var(--accent);line-height:1}
+    .ap-name{font-size:.88rem;font-weight:700;margin:.35rem 0 .2rem;line-height:1.25}
+    .ap-country{font-size:.75rem;color:var(--muted)}
+    .ap-stats{display:flex;gap:.5rem;margin-top:.85rem;padding-top:.85rem;border-top:1px solid var(--border)}
+    .ap-st{flex:1;text-align:center}
+    .ap-st-n{font-family:var(--mono);font-size:1rem;font-weight:800;color:var(--text)}
+    .ap-st-l{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+
+    /* FOOTER */
+    footer{background:var(--surface);border-top:1px solid var(--border);padding:2.5rem 0 1.5rem}
+    .fg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem}
+    .fg h4{font-size:.82rem;font-weight:700;margin-bottom:.5rem}
+    .fg ul{list-style:none;display:flex;flex-direction:column;gap:.3rem}
+    .fg ul a{font-size:.78rem;color:var(--text2)}.fg ul a:hover{color:var(--accent);text-decoration:none}
+    .fb{margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.73rem;color:var(--muted)}
+
+    /* SAMPLE DATA BANNER */
+    .demo-banner{background:linear-gradient(90deg,#1a3a1a,#0d2b0d);border-bottom:2px solid #22c55e;padding:.6rem 0;text-align:center;font-size:.78rem;color:#86efac;letter-spacing:.02em;position:sticky;top:0;z-index:200}
+    .demo-banner strong{color:#4ade80;font-weight:700}
+    .demo-banner a{color:#86efac;text-decoration:underline}
+
+    /* RESPONSIVE */
+    @media(max-width:900px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.nav-links{display:none}.cards{grid-template-columns:1fr}.ap-grid{grid-template-columns:1fr 1fr}.hero-stats{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body>
+
+<!-- SAMPLE DATA DISCLAIMER BANNER -->
+<div class="demo-banner">
+  ⚠️ <strong>Demo Mode:</strong> This site currently displays <strong>sample data</strong> for illustration purposes. Source links now point to official airline &amp; airport pages. For live data, connect this project to GitHub and set up the automation key. &nbsp;|&nbsp; Always verify flight info directly with your airline before travel.
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="container nav-inner">
+    <div class="nav-brand">✈️ <span class="ac">Gulf</span>&nbsp;Aviation Tracker <span class="pill">LIVE</span></div>
+    <ul class="nav-links">
+      <li><a href="#disruptions">Disruptions</a></li>
+      <li><a href="#new-routes">New Routes</a></li>
+      <li><a href="#suspended">Suspended</a></li>
+      <li><a href="#resumed">Resumed</a></li>
+      <li><a href="#advisories">Advisories</a></li>
+      <li><a href="#airports">Airports</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-img-wrap" id="hero-img-wrap">
+    <img id="hero-img" src="assets/banner.jpg" alt="Gulf Aviation Tracker — Canva designed banner"/>
+    <div class="hero-img-overlay"></div>
+  </div>
+  <div class="hero-body">
+    <div class="container">
+      <div class="hero-tag">✈️ Live Aviation Intelligence · Gulf Region</div>
+      <h1>Gulf Aviation<br>Route Tracker</h1>
+      <p class="hero-sub">Live updates on airline routes, disruptions, and operational changes affecting travel to and from Gulf countries.</p>
+      <div class="hero-chips">
+        <span class="chip"><span class="chip-dot"></span>Auto-updated daily</span>
+        <span class="chip">🕒 <span id="ts-chip">Loading…</span></span>
+        <span class="chip">🏢 8 Gulf hub airports</span>
+        <span class="chip">✈️ 6 core airlines tracked</span>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-num n-red" id="s-dis">–</div><div class="hstat-label">Active Issues</div></div>
+        <div class="hstat"><div class="hstat-num n-blue" id="s-new">–</div><div class="hstat-label">New Routes</div></div>
+        <div class="hstat"><div class="hstat-num n-orange" id="s-sus">–</div><div class="hstat-label">Suspended</div></div>
+        <div class="hstat"><div class="hstat-num n-green" id="s-res">–</div><div class="hstat-label">Resumed</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- S1: DISRUPTIONS -->
+<section class="section" id="disruptions">
+  <div class="container">
+    <div class="sh">
+      <div class="sh-l"><span class="sh-icon">⚠️</span><h2>Live Gulf Flight Disruption Tracker</h2><span class="cb" id="c-dis">0</span></div>
+      <div class="fr">
+        <input class="fsearch" id="fs-dis" placeholder="Search airline or route…" type="search"/>
+        <button class="fbtn active" onclick="fTbl('all',this,'tb-dis')">All</button>
+        <button class="fbtn" onclick="fTbl('operating',this,'tb-dis')">Operating</button>
+        <button class="fbtn" onclick="fTbl('delayed',this,'tb-dis')">Delayed</button>
+        <button class="fbtn" onclick="fTbl('rerouted',this,'tb-dis')">Rerouted</button>
+        <button class="fbtn" onclick="fTbl('suspended',this,'tb-dis')">Suspended</button>
+      </div>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Airline</th><th>Route</th><th>Status</th><th>Effective Date</th><th>Notes</th><th>Source</th></tr></thead>
+        <tbody id="tb-dis"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- S2: NEW ROUTES -->
+<section class="section" id="new-routes">
+  <div class="container">
+    <div class="sh">
+      <div class="sh-l"><span class="sh-icon">🛫</span><h2>New Routes to Gulf Airports</h2><span class="cb" id="c-new">0</span></div>
+      <div class="fr"><input class="fsearch" id="fs-new" placeholder="Search routes…" type="search"/></div>
+    </div>
+    <div class="cards" id="g-new"></div>
+  </div>
+</section>
+
+<!-- S3: SUSPENDED -->
+<section class="section" id="suspended">
+  <div class="container">
+    <div class="sh"><div class="sh-l"><span class="sh-icon">🚫</span><h2>Suspended Routes</h2><span class="cb" id="c-sus">0</span></div></div>
+    <div class="cards" id="g-sus"></div>
+  </div>
+</section>
+
+<!-- S4: RESUMED -->
+<section class="section" id="resumed">
+  <div class="container">
+    <div class="sh"><div class="sh-l"><span class="sh-icon">🔄</span><h2>Resumed Routes</h2><span class="cb" id="c-res">0</span></div></div>
+    <div class="cards" id="g-res"></div>
+  </div>
+</section>
+
+<!-- S5: ADVISORIES -->
+<section class="section" id="advisories">
+  <div class="container">
+    <div class="sh"><div class="sh-l"><span class="sh-icon">📢</span><h2>Traveler Advisory Updates</h2><span class="cb" id="c-adv">0</span></div></div>
+    <div class="adv-list" id="adv-list"></div>
+  </div>
+</section>
+
+<!-- S6: AIRPORTS -->
+<section class="section" id="airports">
+  <div class="container">
+    <div class="sh"><div class="sh-l"><span class="sh-icon">🏢</span><h2>Gulf Airport Overview</h2></div></div>
+    <div class="ap-grid" id="ap-grid"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="fg-grid">
+      <div class="fg">
+        <h4>✈️ Gulf Aviation Tracker</h4>
+        <p style="font-size:.78rem;color:var(--text2);line-height:1.5;margin-top:.3rem;max-width:24ch">Automated daily updates on routes and operational notices for Gulf travel.</p>
+      </div>
+      <div class="fg"><h4>Tracked Airlines</h4><ul>
+        <li><a href="https://www.emirates.com" target="_blank" rel="noopener">Emirates (EK)</a></li>
+        <li><a href="https://www.qatarairways.com" target="_blank" rel="noopener">Qatar Airways (QR)</a></li>
+        <li><a href="https://www.etihad.com" target="_blank" rel="noopener">Etihad Airways (EY)</a></li>
+        <li><a href="https://www.flydubai.com" target="_blank" rel="noopener">Flydubai (FZ)</a></li>
+        <li><a href="https://www.airarabia.com" target="_blank" rel="noopener">Air Arabia (G9)</a></li>
+        <li><a href="https://www.saudia.com" target="_blank" rel="noopener">Saudia (SV)</a></li>
+      </ul></div>
+      <div class="fg"><h4>Gulf Airports</h4><ul>
+        <li><a href="#airports">DXB – Dubai International</a></li>
+        <li><a href="#airports">AUH – Zayed International</a></li>
+        <li><a href="#airports">DOH – Hamad International</a></li>
+        <li><a href="#airports">JED – King Abdulaziz Int'l</a></li>
+        <li><a href="#airports">RUH – King Khalid Int'l</a></li>
+        <li><a href="#airports">MCT – Muscat International</a></li>
+      </ul></div>
+      <div class="fg"><h4>Trusted Sources</h4><ul>
+        <li><a href="https://simpleflying.com" target="_blank" rel="noopener">Simple Flying</a></li>
+        <li><a href="https://www.airlineroute.net" target="_blank" rel="noopener">Airline Route</a></li>
+        <li><a href="https://www.ch-aviation.com" target="_blank" rel="noopener">ch-aviation</a></li>
+        <li><a href="https://www.aviationweek.com" target="_blank" rel="noopener">Aviation Week</a></li>
+        <li><a href="https://www.flightglobal.com" target="_blank" rel="noopener">FlightGlobal</a></li>
+      </ul></div>
+    </div>
+    <div class="fb">
+      <span>Data refreshed every morning via automated search. Verify with your airline before travel.</span>
+      <span id="ft-ts">Last updated: loading…</span>
+    </div>
+  </div>
+</footer>
+
+<!-- INLINE DATA — no external fetches, no 404s -->
+<script>
+const DISRUPTIONS={"last_updated":"2026-03-10T06:00:00Z","disruptions":[{"id":"d001","airline":"Emirates","origin":"London Heathrow","destination":"Dubai","route":"London Heathrow \u2192 Dubai","status":"rerouted","effective_date":"2026-03-08","notes":"Flights rerouted south via Arabian Sea; journey time extended approx. 1 h 20 min.","source":"https://www.emirates.com/english/help/travel-alerts/","added_date":"2026-03-10"},{"id":"d002","airline":"Qatar Airways","origin":"Doha","destination":"Multiple European","route":"Doha \u2192 European destinations","status":"delayed","effective_date":"2026-03-09","notes":"Average 40\u201360 min delays due to jet stream turbulence avoidance protocols.","source":"https://www.qatarairways.com/en/travel-alerts.html","added_date":"2026-03-10"},{"id":"d003","airline":"Etihad Airways","origin":"Abu Dhabi","destination":"Karachi","route":"Abu Dhabi \u2192 Karachi","status":"operating","effective_date":"2026-03-10","notes":"Service operating normally. Minor NOTAM in effect; no passenger impact.","source":"https://www.etihad.com/en/help/travel-updates","added_date":"2026-03-10"},{"id":"d004","airline":"Flydubai","origin":"Dubai","destination":"Tbilisi","route":"Dubai \u2192 Tbilisi","status":"operating","effective_date":"2026-03-07","notes":"Adjusted schedule: FZ571 departs 02:40 local (was 01:15). Passengers advised to recheck.","source":"https://www.flydubai.com/en/plan/travel-information","added_date":"2026-03-08"},{"id":"d005","airline":"Saudia","origin":"Riyadh","destination":"Beirut","route":"Riyadh \u2192 Beirut","status":"suspended","effective_date":"2026-02-20","notes":"Suspended pending review of operating permits. Alternative connections via Amman or Cairo.","source":"https://www.saudia.com/en/help/operational-updates","added_date":"2026-02-21"},{"id":"d006","airline":"Air Arabia","origin":"Sharjah","destination":"Baghdad","route":"Sharjah \u2192 Baghdad","status":"operating","effective_date":"2026-03-05","notes":"Fully resumed after maintenance pause. Normal 7x weekly frequency restored.","source":"https://www.airarabia.com/en/help","added_date":"2026-03-05"},{"id":"d007","airline":"Emirates","origin":"Dubai","destination":"Nairobi","route":"Dubai \u2192 Nairobi","status":"operating","effective_date":"2026-03-01","notes":"Daily service EK722 fully restored. Additional codeshare frequencies via partners.","source":"https://www.emirates.com/english/help/travel-alerts/","added_date":"2026-03-01"},{"id":"d008","airline":"Kuwait Airways","origin":"Kuwait City","destination":"London Heathrow","route":"Kuwait City \u2192 London Heathrow","status":"diverted","effective_date":"2026-03-09","notes":"KU101 diverted to Istanbul Atat\u00fcrk for medical emergency; 2h 15m delay. Normal ops resume 11 March.","source":"https://www.kuwaitairways.com/","added_date":"2026-03-09"}]};
+const ROUTES={"last_updated":"2026-03-10T06:00:00Z","routes":[{"id":"r001","airline":"Qatar Airways","origin":"Doha","destination":"Lisbon","status":"new","start_date":"2026-06-10","frequency":"4x weekly","aircraft":"Airbus A350-900","description":"Qatar Airways launches new non-stop service from Doha to Lisbon, operating Mon/Wed/Fri/Sun from 10 June 2026.","source":"https://www.qatarairways.com/en/press-releases.html","added_date":"2026-03-05"},{"id":"r002","airline":"Emirates","origin":"Dubai","destination":"Cebu","status":"new","start_date":"2026-05-15","frequency":"Daily","aircraft":"Boeing 777-300ER","description":"Emirates expands Philippine network with daily Dubai\u2013Cebu service. EK348/349 effective 15 May 2026.","source":"https://www.emirates.com/english/about-emirates/media-centre/","added_date":"2026-03-02"},{"id":"r003","airline":"Etihad Airways","origin":"Abu Dhabi","destination":"Edinburgh","status":"new","start_date":"2026-07-01","frequency":"5x weekly","aircraft":"Boeing 787-9","description":"Etihad\u2019s first direct Abu Dhabi\u2013Edinburgh service, filling a long-awaited route gap for Scottish travelers.","source":"https://www.etihad.com/en/about/media-centre","added_date":"2026-02-28"},{"id":"r004","airline":"Flydubai","origin":"Dubai","destination":"Trabzon","status":"new","start_date":"2026-04-10","frequency":"3x weekly","aircraft":"Boeing 737 MAX 8","description":"Flydubai adds Trabzon to its Turkish network. Operates Tue/Thu/Sat from 10 April 2026.","source":"https://www.flydubai.com/en/about-flydubai/media-centre","added_date":"2026-03-07"},{"id":"r005","airline":"Air Arabia","origin":"Sharjah","destination":"Kozhikode","status":"new","start_date":"2026-04-20","frequency":"7x weekly","aircraft":"Airbus A320","description":"Air Arabia launches daily Sharjah\u2013Kozhikode service serving the large Kerala expat community.","source":"https://www.airarabia.com/en/about-air-arabia/media-centre","added_date":"2026-03-08"},{"id":"r006","airline":"Qatar Airways","origin":"Doha","destination":"Montevideo","status":"new","start_date":"2026-08-01","frequency":"3x weekly","aircraft":"Boeing 787-9","description":"Qatar Airways becomes first Gulf carrier with direct flights to Uruguay from 1 August 2026.","source":"https://www.qatarairways.com/en/press-releases.html","added_date":"2026-03-01"},{"id":"r007","airline":"Saudia","origin":"Riyadh","destination":"Tbilisi","status":"new","start_date":"2026-05-01","frequency":"4x weekly","aircraft":"Airbus A320","description":"Saudia launches Riyadh\u2013Tbilisi 4x weekly supporting growing Saudi\u2013Georgia travel demand.","source":"https://www.saudia.com/en/about-saudia/media","added_date":"2026-02-25"},{"id":"r008","airline":"Saudia","origin":"Jeddah","destination":"Beirut","status":"suspended","start_date":null,"suspension_date":"2026-02-20","frequency":null,"aircraft":null,"description":"Jeddah\u2013Beirut suspended pending permit review. Passengers rerouted via Cairo or Amman.","source":"https://www.saudia.com/en/help/operational-updates","added_date":"2026-02-21"},{"id":"r009","airline":"Emirates","origin":"Dubai","destination":"Conakry","status":"suspended","start_date":null,"suspension_date":"2026-01-15","frequency":null,"aircraft":null,"description":"Dubai\u2013Conakry suspended due to low load factors. Codeshare options remain via Addis Ababa.","source":"https://www.emirates.com/english/about-emirates/media-centre/","added_date":"2026-01-16"},{"id":"r010","airline":"Qatar Airways","origin":"Doha","destination":"Accra","status":"resumed","start_date":"2026-03-01","frequency":"5x weekly","aircraft":"Airbus A350-900","description":"Qatar Airways resumes Doha\u2013Accra after 4-month pause. Service operates Sun/Mon/Wed/Thu/Fri.","source":"https://www.qatarairways.com/en/press-releases.html","added_date":"2026-02-20"},{"id":"r011","airline":"Etihad Airways","origin":"Abu Dhabi","destination":"Kuala Lumpur","status":"resumed","start_date":"2026-03-15","frequency":"Daily","aircraft":"Boeing 787-9","description":"Etihad resumes daily AUH\u2013KUL service from 15 March, replacing reduced seasonal 4x weekly schedule.","source":"https://www.etihad.com/en/about/media-centre","added_date":"2026-02-28"},{"id":"r012","airline":"Air Arabia","origin":"Sharjah","destination":"Peshawar","status":"resumed","start_date":"2026-03-05","frequency":"7x weekly","aircraft":"Airbus A320neo","description":"Air Arabia resumed daily Sharjah\u2013Peshawar route following brief regulatory documentation update.","source":"https://www.airarabia.com/en/help","added_date":"2026-03-05"}]};
+const ADVISORIES={"last_updated":"2026-03-10T06:00:00Z","advisories":[{"id":"adv001","type":"warning","title":"Airspace Advisory: Extended Routing Affecting Gulf-Europe Flights","body":"Emirates, Qatar Airways, and Etihad are operating extended routing profiles on Gulf\u2013Europe flights. Expect journey time increases of 50\u201390 minutes on selected routes. Check your airline app for real-time updates.","airline":"Emirates, Qatar Airways, Etihad","airports":"DXB, DOH, AUH","effective_date":"2026-03-08","source":"https://www.gcaa.gov.ae/en/Pages/default.aspx","added_date":"2026-03-08"},{"id":"adv002","type":"info","title":"Dubai International: Terminal 2 Scheduled Maintenance","body":"Terminal 2 infrastructure maintenance 22\u201326 March 2026. Check-in desks consolidated; Flydubai check-in moves to Hall A East. Allow 30 extra minutes when traveling through T2.","airline":"Flydubai, Air Arabia","airports":"DXB T2","effective_date":"2026-03-22","source":"https://www.dubaiairports.ae/","added_date":"2026-03-09"},{"id":"adv003","type":"info","title":"Hamad International: New Biometric Fast-Track Gates Operational","body":"Biometric immigration fast-track gates activated in Concourses B and C from 5 March 2026. Qatar ID and pre-registered biometric travelers can use automated lanes, reducing processing time.","airline":"Qatar Airways","airports":"DOH","effective_date":"2026-03-05","source":"https://dohahamadairport.com/","added_date":"2026-03-05"},{"id":"adv004","type":"warning","title":"Emirates: Schedule Adjustment \u2014 Nairobi Services","body":"EK Nairobi series adjusted 8 March \u2013 30 April 2026 due to JKIA runway works. EK722 departs DXB 23:30 (was 22:00). EK723 departs NBO 08:15 (was 06:30). Passengers should verify itineraries.","airline":"Emirates","airports":"DXB, NBO","effective_date":"2026-03-08","source":"https://www.emirates.com/english/help/travel-alerts/","added_date":"2026-03-07"},{"id":"adv005","type":"critical","title":"GACA: Temporary Flight Restrictions \u2014 Northern Saudi Sectors","body":"GACA temporary restrictions in northern airspace 10\u201320 March 2026 affect flights between Riyadh, Tabuk, and international destinations. Saudia and other carriers may experience 20\u201340 min delays.","airline":"Saudia, flyadeal, Multiple Carriers","airports":"RUH, TUU","effective_date":"2026-03-10","source":"https://www.gaca.gov.sa/en/Pages/default.aspx","added_date":"2026-03-10"},{"id":"adv006","type":"info","title":"King Abdulaziz International: 12 New Remote Stands Open","body":"JED International Terminal South pier opened 12 additional remote stands, increasing peak-hour capacity by 15%. Buses operate to remote stands G25\u2013G36. No passenger disruption expected.","airline":"All carriers at JED","airports":"JED","effective_date":"2026-03-01","source":"https://kkia.gov.sa/","added_date":"2026-03-01"},{"id":"adv007","type":"info","title":"Qatar Airways: IATA Summer 2026 Schedule Published","body":"Summer 2026 schedule (29 Mar \u2013 24 Oct) adds 15+ new destinations and frequency increases on 40 existing routes. Passengers should verify connections as minimum connect time at DOH changes 29 March.","airline":"Qatar Airways","airports":"DOH","effective_date":"2026-03-29","source":"https://www.qatarairways.com/en/travel-alerts.html","added_date":"2026-03-04"}]};
+const AIRPORTS={"airports":[{"iata":"DXB","name":"Dubai International Airport","country":"United Arab Emirates","routes_tracked":24,"disruptions_active":2,"airlines_count":90},{"iata":"AUH","name":"Zayed International Airport","country":"United Arab Emirates","routes_tracked":14,"disruptions_active":1,"airlines_count":35},{"iata":"DOH","name":"Hamad International Airport","country":"Qatar","routes_tracked":18,"disruptions_active":1,"airlines_count":60},{"iata":"JED","name":"King Abdulaziz International","country":"Saudi Arabia","routes_tracked":12,"disruptions_active":1,"airlines_count":45},{"iata":"RUH","name":"King Khalid International","country":"Saudi Arabia","routes_tracked":10,"disruptions_active":2,"airlines_count":50},{"iata":"MCT","name":"Muscat International Airport","country":"Oman","routes_tracked":8,"disruptions_active":0,"airlines_count":30},{"iata":"KWI","name":"Kuwait International Airport","country":"Kuwait","routes_tracked":7,"disruptions_active":1,"airlines_count":25},{"iata":"BAH","name":"Bahrain International Airport","country":"Bahrain","routes_tracked":6,"disruptions_active":0,"airlines_count":22}]};
+
+/* helpers */
+const AC={Emirates:'#CC0001','Qatar Airways':'#5C0632','Etihad Airways':'#BD8B13',Flydubai:'#E4002B','Air Arabia':'#FF5733',Saudia:'#006400','Kuwait Airways':'#1E88E5','Gulf Air':'#003580'};
+const alC=n=>AC[n]||'#0ea5e9';
+const SC={operating:'b-green',normal:'b-green',active:'b-green',delayed:'b-yellow',delays:'b-yellow',rerouted:'b-yellow',diverted:'b-purple',disrupted:'b-yellow',suspended:'b-red',cancelled:'b-red',new:'b-blue',upcoming:'b-blue',resumed:'b-green',relaunched:'b-green',warning:'b-yellow',info:'b-blue',critical:'b-red'};
+const badge=s=>`<span class="b ${SC[(s||'').toLowerCase()]||'b-blue'}">${(s||'?').replace(/_/g,' ')}</span>`;
+const fD=d=>{if(!d)return'–';try{return new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}catch{return d}};
+const fTs=t=>{if(!t)return'–';try{return new Date(t).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'})}catch{return t}};
+const mt=m=>`<div style="text-align:center;padding:2.5rem;color:var(--muted);font-size:.9rem">✈️<br><br>${m}</div>`;
+
+const disRow=d=>`<tr data-status="${(d.status||'').toLowerCase()}" data-search="${(d.airline+d.route+d.notes).toLowerCase()}">
+  <td><div class="td-al"><div class="al-dot" style="background:${alC(d.airline)}"></div>${d.airline||'–'}</div></td>
+  <td class="td-rt">${d.route||`${d.origin||'–'} \u2192 ${d.destination||'–'}`}</td>
+  <td>${badge(d.status)}</td>
+  <td class="td-date">${fD(d.effective_date)}</td>
+  <td class="td-note">${d.notes||'–'}</td>
+  <td>${d.source?`<a class="sl" href="${d.source}" target="_blank" rel="noopener">\u2197</a>`:''}</td>
+</tr>`;
+
+const rCard=(r,t)=>{const c={new:'cn',suspended:'cs',resumed:'cr'}[t]||'cn';return`<div class="card ${c}">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.4rem">
+    <div><div class="c-al">${r.airline||'–'}</div>
+    <div class="c-rt">${r.origin||'–'} <span style="color:var(--muted);font-weight:400">\u2192</span> ${r.destination||'–'}</div></div>
+    ${badge(r.status||t)}</div>
+  <div class="c-meta">
+    ${r.start_date?`<span>📅 ${fD(r.start_date)}</span>`:''}
+    ${r.frequency?`<span>🔄 ${r.frequency}</span>`:''}
+    ${r.aircraft?`<span>✈️ ${r.aircraft}</span>`:''}
+  </div>
+  ${r.description?`<div class="c-desc">${r.description}</div>`:''}
+  <div class="c-foot">
+    ${r.source?`<a class="sl" href="${r.source}" target="_blank" rel="noopener">📎 Source</a>`:'<span></span>'}
+    <span class="c-date">${fD(r.added_date)}</span>
+  </div>
+</div>`};
+
+const advCard=a=>`<div class="adv ${a.type||'info'}">
+  <div class="adv-hd"><div class="adv-title">${a.title||'Advisory'}</div>${badge(a.type||'info')}</div>
+  <div class="adv-body">${a.body||'–'}</div>
+  <div class="adv-meta">
+    ${a.airline?`<span>✈️ ${a.airline}</span>`:''}
+    ${a.airports?`<span>🏢 ${a.airports}</span>`:''}
+    ${a.effective_date?`<span>📅 ${fD(a.effective_date)}</span>`:''}
+    ${a.source?`<span><a href="${a.source}" target="_blank" rel="noopener">📎 Source</a></span>`:''}
+  </div>
+</div>`;
+
+const apCard=a=>`<div class="ap" onclick="document.getElementById('disruptions').scrollIntoView({behavior:'smooth'})">
+  <div class="ap-iata">${a.iata}</div>
+  <div class="ap-name">${a.name}</div>
+  <div class="ap-country">${a.country}</div>
+  <div class="ap-stats">
+    <div class="ap-st"><div class="ap-st-n">${a.routes_tracked??'–'}</div><div class="ap-st-l">Routes</div></div>
+    <div class="ap-st"><div class="ap-st-n" style="${(a.disruptions_active||0)>0?'color:var(--red)':''}">${a.disruptions_active??0}</div><div class="ap-st-l">Issues</div></div>
+    <div class="ap-st"><div class="ap-st-n">${a.airlines_count??'–'}</div><div class="ap-st-l">Airlines</div></div>
+  </div>
+</div>`;
+
+function fTbl(s,btn,id){
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll(`#${id} tr[data-status]`).forEach(r=>{r.style.display=(s==='all'||r.dataset.status===s)?'':'none'});
+}
+function wireS(iId,tId,isCards){
+  const el=document.getElementById(iId);if(!el)return;
+  el.addEventListener('input',()=>{const q=el.value.toLowerCase();
+    if(isCards)document.querySelectorAll(`#${tId} .card`).forEach(c=>{c.style.display=c.textContent.toLowerCase().includes(q)?'':'none'});
+    else document.querySelectorAll(`#${tId} tr[data-search]`).forEach(r=>{r.style.display=r.dataset.search.includes(q)?'':'none'});
+  });
+}
+
+function render(){
+  const dis=DISRUPTIONS.disruptions||[];
+  const rts=ROUTES.routes||[];
+  const adv=ADVISORIES.advisories||[];
+  const aps=AIRPORTS.airports||[];
+  const lu=DISRUPTIONS.last_updated;
+  const tsStr=fTs(lu);
+  document.getElementById('ts-chip').textContent=`Updated: ${tsStr}`;
+  document.getElementById('ft-ts').textContent=`Last updated: ${tsStr}`;
+
+  const issues=dis.filter(d=>!['operating','normal'].includes((d.status||'').toLowerCase())).length;
+  document.getElementById('s-dis').textContent=issues;
+  document.getElementById('s-new').textContent=rts.filter(r=>r.status==='new').length;
+  document.getElementById('s-sus').textContent=rts.filter(r=>r.status==='suspended').length;
+  document.getElementById('s-res').textContent=rts.filter(r=>r.status==='resumed').length;
+
+  document.getElementById('c-dis').textContent=dis.length;
+  document.getElementById('tb-dis').innerHTML=dis.length?dis.map(disRow).join(''):`<tr><td colspan="6">${mt('No active disruptions on record.')}</td></tr>`;
+  wireS('fs-dis','tb-dis',false);
+
+  const nr=rts.filter(r=>r.status==='new');
+  document.getElementById('c-new').textContent=nr.length;
+  document.getElementById('g-new').innerHTML=nr.length?nr.map(r=>rCard(r,'new')).join(''):mt('No new route announcements.');
+  wireS('fs-new','g-new',true);
+
+  const sr=rts.filter(r=>r.status==='suspended');
+  document.getElementById('c-sus').textContent=sr.length;
+  document.getElementById('g-sus').innerHTML=sr.length?sr.map(r=>rCard(r,'suspended')).join(''):mt('No suspended routes tracked.');
+
+  const rr=rts.filter(r=>r.status==='resumed');
+  document.getElementById('c-res').textContent=rr.length;
+  document.getElementById('g-res').innerHTML=rr.length?rr.map(r=>rCard(r,'resumed')).join(''):mt('No resumed routes tracked.');
+
+  document.getElementById('c-adv').textContent=adv.length;
+  document.getElementById('adv-list').innerHTML=adv.length?adv.map(advCard).join(''):mt('No active advisories.');
+  document.getElementById('ap-grid').innerHTML=aps.map(apCard).join('');
+}
+render();
+</script>
+</body>
+</html>

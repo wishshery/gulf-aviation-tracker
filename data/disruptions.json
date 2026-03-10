@@ -1,0 +1,101 @@
+{
+  "last_updated": "2026-03-10T06:00:00Z",
+  "disruptions": [
+    {
+      "id": "d001",
+      "airline": "Emirates",
+      "origin": "London Heathrow",
+      "destination": "Dubai",
+      "route": "London Heathrow → Dubai",
+      "status": "rerouted",
+      "effective_date": "2026-03-08",
+      "notes": "Flights rerouted south via Arabian Sea avoiding certain airspace; journey time extended by approx. 1 hour 20 minutes.",
+      "source": "https://www.emirates.com/media-centre/operational-updates",
+      "added_date": "2026-03-10"
+    },
+    {
+      "id": "d002",
+      "airline": "Qatar Airways",
+      "origin": "Doha",
+      "destination": "Multiple European",
+      "route": "Doha → European destinations",
+      "status": "delayed",
+      "effective_date": "2026-03-09",
+      "notes": "Scheduled departures experiencing average 40–60 minute delays due to high-altitude jet stream turbulence avoidance protocols.",
+      "source": "https://www.qatarairways.com/travel-alerts",
+      "added_date": "2026-03-10"
+    },
+    {
+      "id": "d003",
+      "airline": "Etihad Airways",
+      "origin": "Abu Dhabi",
+      "destination": "Karachi",
+      "route": "Abu Dhabi → Karachi",
+      "status": "operating",
+      "effective_date": "2026-03-10",
+      "notes": "Service operating normally. Minor NOTAM in effect for ATC advisory; no passenger impact.",
+      "source": "https://www.etihad.com/en-ae/fly-etihad/travel-information",
+      "added_date": "2026-03-10"
+    },
+    {
+      "id": "d004",
+      "airline": "Flydubai",
+      "origin": "Dubai",
+      "destination": "Tbilisi",
+      "route": "Dubai → Tbilisi",
+      "status": "operating",
+      "effective_date": "2026-03-07",
+      "notes": "Service operating on adjusted schedule. FZ571 departs 02:40 local instead of 01:15. Passengers advised to recheck booking.",
+      "source": "https://www.flydubai.com/en/customer-support/schedule-changes",
+      "added_date": "2026-03-08"
+    },
+    {
+      "id": "d005",
+      "airline": "Saudia",
+      "origin": "Riyadh",
+      "destination": "Beirut",
+      "route": "Riyadh → Beirut",
+      "status": "suspended",
+      "effective_date": "2026-02-20",
+      "notes": "Route suspended until further notice pending review of operating permits. Passengers advised to seek alternative connections via Amman or Cairo.",
+      "source": "https://www.saudia.com/en/info/travel-alerts",
+      "added_date": "2026-02-21"
+    },
+    {
+      "id": "d006",
+      "airline": "Air Arabia",
+      "origin": "Sharjah",
+      "destination": "Baghdad",
+      "route": "Sharjah → Baghdad",
+      "status": "operating",
+      "effective_date": "2026-03-05",
+      "notes": "Operations fully resumed on this route following short maintenance pause. Normal frequency restored: 7x weekly.",
+      "source": "https://www.airarabia.com/en/travel-updates",
+      "added_date": "2026-03-05"
+    },
+    {
+      "id": "d007",
+      "airline": "Emirates",
+      "origin": "Dubai",
+      "destination": "Nairobi",
+      "route": "Dubai → Nairobi",
+      "status": "operating",
+      "effective_date": "2026-03-01",
+      "notes": "Full daily service restored on EK722. Additional codeshare frequencies available via partner carriers.",
+      "source": "https://www.emirates.com/media-centre",
+      "added_date": "2026-03-01"
+    },
+    {
+      "id": "d008",
+      "airline": "Kuwait Airways",
+      "origin": "Kuwait City",
+      "destination": "London Heathrow",
+      "route": "Kuwait City → London Heathrow",
+      "status": "diverted",
+      "effective_date": "2026-03-09",
+      "notes": "KU101 diverted to Istanbul Atatürk for medical emergency. Flight resumed after 2h 15m delay. Scheduled to return to normal ops from 11 March.",
+      "source": "https://www.kuwaitairways.com/alerts",
+      "added_date": "2026-03-09"
+    }
+  ]
+}
