@@ -150,6 +150,19 @@
     .fg ul a{font-size:.78rem;color:var(--text2)}.fg ul a:hover{color:var(--accent);text-decoration:none}
     .fb{margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.73rem;color:var(--muted)}
 
+
+    /* UK-PAK TABLE EXTRAS */
+    .rt-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+    .rt-direct{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+    .rt-via{background:rgba(14,165,233,.1);color:var(--accent);border:1px solid rgba(14,165,233,.2)}
+    .rt-other{background:rgba(168,85,247,.1);color:var(--purple);border:1px solid rgba(168,85,247,.2)}
+    .iata-tag{font-family:var(--mono);font-size:.72rem;font-weight:700;background:var(--surface3);border:1px solid var(--border2);padding:2px 7px;border-radius:4px;color:var(--accent2)}
+    .via-hub{font-size:.72rem;color:var(--muted);font-style:italic}
+    .ukp-hero{background:linear-gradient(135deg,rgba(14,165,233,.06),rgba(168,85,247,.06));border:1px solid rgba(14,165,233,.15);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
+    .ukp-stat{text-align:center}
+    .ukp-stat-n{font-family:var(--mono);font-size:1.4rem;font-weight:900}
+    .ukp-stat-l{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
     /* RESPONSIVE */
     @media(max-width:900px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:600px){.nav-links{display:none}.cards{grid-template-columns:1fr}.ap-grid{grid-template-columns:1fr 1fr}.hero-stats{grid-template-columns:repeat(2,1fr)}}
@@ -167,6 +180,7 @@
       <li><a href="#suspended">Suspended</a></li>
       <li><a href="#resumed">Resumed</a></li>
       <li><a href="#advisories">Advisories</a></li>
+      <li><a href="#uk-pakistan">UK → Pakistan</a></li>
       <li><a href="#airports">Airports</a></li>
     </ul>
   </div>
@@ -257,6 +271,41 @@
   </div>
 </section>
 
+
+<!-- S7: UK → PAKISTAN FLIGHTS -->
+<section class="section" id="uk-pakistan">
+  <div class="container">
+    <div class="sh">
+      <div class="sh-l"><span class="sh-icon">🇬🇧✈️🇵🇰</span><h2>UK → Pakistan Live Flight Tracker</h2><span class="cb" id="c-ukp">0</span></div>
+      <div class="fr">
+        <input class="fsearch" id="fs-ukp" placeholder="Search airline, city or airport…" type="search"/>
+        <button class="fbtn active" onclick="fUKP('all',this)">All</button>
+        <button class="fbtn" onclick="fUKP('direct',this)">Direct Only</button>
+        <button class="fbtn" onclick="fUKP('via_gulf',this)">Via Gulf</button>
+        <button class="fbtn" onclick="fUKP('issues',this)">Issues</button>
+      </div>
+    </div>
+    <!-- Summary bar -->
+    <div class="ukp-hero" id="ukp-summary"></div>
+    <!-- Table -->
+    <div class="tw">
+      <table>
+        <thead><tr>
+          <th>Airline</th>
+          <th>From (UK)</th>
+          <th>To (Pakistan)</th>
+          <th>Route Type</th>
+          <th>Frequency</th>
+          <th>Status</th>
+          <th>Notes</th>
+          <th>Source</th>
+        </tr></thead>
+        <tbody id="tb-ukp"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
 <!-- S6: AIRPORTS -->
 <section class="section" id="airports">
   <div class="container">
@@ -310,6 +359,8 @@ const DISRUPTIONS={"last_updated":"2026-03-10T20:29:14.295080+00:00","disruption
 const ROUTES={"last_updated":"2026-03-10T20:29:14.295080+00:00","routes":[{"id":"r001","airline":"Qatar Airways","origin":"Doha","destination":"Lisbon","status":"new","start_date":"2026-06-10","frequency":"4x weekly","aircraft":"Airbus A350-900","description":"Qatar Airways launches new non-stop service connecting Hamad International Airport to Lisbon Humberto Delgado Airport from 10 June 2026, operating on Monday, Wednesday, Friday, and Sunday.","source":"https://www.qatarairways.com/pressrelease/2026/new-routes","added_date":"2026-03-05"},{"id":"r002","airline":"Emirates","origin":"Dubai","destination":"Cebu","status":"new","start_date":"2026-05-15","frequency":"Daily","aircraft":"Boeing 777-300ER","description":"Emirates expands Philippine network with new daily service to Cebu Mactan-Cebu International Airport. EK348/349 effective 15 May 2026.","source":"https://www.emirates.com/media-centre/new-routes-2026","added_date":"2026-03-02"},{"id":"r003","airline":"Etihad Airways","origin":"Abu Dhabi","destination":"Edinburgh","status":"new","start_date":"2026-07-01","frequency":"5x weekly","aircraft":"Boeing 787-9","description":"Etihad expands UK network with first direct service from Abu Dhabi to Edinburgh Airport, filling a long-awaited route gap for Scottish travelers.","source":"https://www.etihad.com/press-releases/edinburgh-launch","added_date":"2026-02-28"},{"id":"r004","airline":"Flydubai","origin":"Dubai","destination":"Trabzon","status":"new","start_date":"2026-04-10","frequency":"3x weekly","aircraft":"Boeing 737 MAX 8","description":"Flydubai adds Trabzon to its growing Turkish network, joining existing services to Istanbul, Ankara, and Bodrum. Operates Tuesday, Thursday, Saturday.","source":"https://www.flydubai.com/en/media/press-releases","added_date":"2026-03-07"},{"id":"r005","airline":"Air Arabia","origin":"Sharjah","destination":"Kozhikode","status":"new","start_date":"2026-04-20","frequency":"7x weekly","aircraft":"Airbus A320","description":"Air Arabia reinforces South India connectivity with daily Sharjah–Calicut (Kozhikode) service catering to the large Kerala expat community in the UAE.","source":"https://www.airarabia.com/press-releases","added_date":"2026-03-08"},{"id":"r006","airline":"Qatar Airways","origin":"Doha","destination":"Montevideo","status":"new","start_date":"2026-08-01","frequency":"3x weekly","aircraft":"Boeing 787-9","description":"Qatar Airways makes history becoming first Gulf carrier to operate direct flights to Uruguay, connecting Hamad International to Carrasco International Airport.","source":"https://www.qatarairways.com/pressrelease/2026/southamerica","added_date":"2026-03-01"},{"id":"r007","airline":"Saudia","origin":"Riyadh","destination":"Tbilisi","status":"new","start_date":"2026-05-01","frequency":"4x weekly","aircraft":"Airbus A320","description":"Saudia launches new service connecting King Khalid International Airport to Tbilisi International, supporting growing tourism and business travel between Saudi Arabia and Georgia.","source":"https://www.saudia.com/press-releases","added_date":"2026-02-25"},{"id":"r008","airline":"Saudia","origin":"Jeddah","destination":"Beirut","status":"suspended","start_date":null,"suspension_date":"2026-02-20","frequency":null,"aircraft":null,"description":"Saudia suspended Jeddah–Beirut service pending review. Passengers affected are being rerouted via Cairo or Amman with partner carriers.","source":"https://www.saudia.com/en/info/travel-alerts","added_date":"2026-02-21"},{"id":"r010","airline":"Qatar Airways","origin":"Doha","destination":"Accra","status":"resumed","start_date":"2026-03-01","frequency":"5x weekly","aircraft":"Airbus A350-900","description":"Qatar Airways resumes Doha–Accra service after a 4-month operational pause for route realignment. Service operates Sunday, Monday, Wednesday, Thursday, Friday.","source":"https://www.qatarairways.com/press-releases","added_date":"2026-02-20"},{"id":"r011","airline":"Etihad Airways","origin":"Abu Dhabi","destination":"Kuala Lumpur","status":"resumed","start_date":"2026-03-15","frequency":"Daily","aircraft":"Boeing 787-9","description":"Etihad Airways resumes daily Abu Dhabi–Kuala Lumpur service following winter schedule. Full frequency returns from 15 March 2026, replacing the reduced seasonal 4x weekly operation.","source":"https://www.etihad.com/press-releases","added_date":"2026-02-28"},{"id":"r012","airline":"Air Arabia","origin":"Sharjah","destination":"Peshawar","status":"resumed","start_date":"2026-03-05","frequency":"7x weekly","aircraft":"Airbus A320neo","description":"Air Arabia resumed its popular daily Sharjah–Peshawar route following brief regulatory documentation update. Full daily schedule restored.","source":"https://www.airarabia.com/en/travel-updates","added_date":"2026-03-05"}]};
 const ADVISORIES={"last_updated":"2026-03-10T20:29:14.295080+00:00","advisories":[{"id":"adv001","type":"warning","title":"Airspace Advisory: Extended Routing Affecting Gulf-Europe Flights","body":"Several Gulf carriers including Emirates, Qatar Airways, and Etihad are operating on extended routing profiles affecting flights between Gulf airports and European destinations. Passengers should expect journey time increases of 50–90 minutes on selected routes. Check your airline's app for real-time flight updates.","airline":"Emirates, Qatar Airways, Etihad","airports":"DXB, DOH, AUH","effective_date":"2026-03-08","expiry_date":"2026-03-25","source":"https://www.gcaa.gov.ae/notam","added_date":"2026-03-08"},{"id":"adv002","type":"info","title":"Dubai International: Terminal 2 Scheduled Maintenance","body":"Dubai International Airport Terminal 2 is undergoing scheduled infrastructure maintenance 22–26 March 2026. Some check-in desks will be consolidated. Flydubai passengers check-in is temporarily relocated to Hall A East. Allow additional 30 minutes when traveling through Terminal 2 during this period.","airline":"Flydubai, Air Arabia","airports":"DXB Terminal 2","effective_date":"2026-03-22","expiry_date":"2026-03-26","source":"https://www.dubaiairports.ae/passenger-notices","added_date":"2026-03-09"},{"id":"adv003","type":"info","title":"Hamad International Airport: New Biometric Gates Operational","body":"Hamad International Airport has activated biometric fast-track immigration gates in Concourses B and C from 5 March 2026. Travelers with Qatar ID or pre-registered biometrics can use automated lanes, significantly reducing processing time.","airline":"Qatar Airways","airports":"DOH","effective_date":"2026-03-05","expiry_date":null,"source":"https://www.qatarairports.com/news","added_date":"2026-03-05"},{"id":"adv004","type":"warning","title":"Emirates: Schedule Adjustment — EK Flights via Nairobi","body":"Emirates has adjusted departure times for EK flight series operating via Nairobi effective 8 March – 30 April 2026 due to runway resurfacing work at JKIA. EK722 departs Dubai at 23:30 (was 22:00). EK723 departs Nairobi at 08:15 (was 06:30). Passengers should verify their itineraries.","airline":"Emirates","airports":"DXB, NBO","effective_date":"2026-03-08","expiry_date":"2026-04-30","source":"https://www.emirates.com/travel-updates/nairobi-schedule","added_date":"2026-03-07"},{"id":"adv005","type":"critical","title":"Saudi Arabia: GACA Temporary Flight Restrictions — Northern Sectors","body":"The General Authority of Civil Aviation (GACA) has issued temporary flight restrictions in northern airspace sectors effective 10–20 March 2026. This affects routing for flights between Riyadh, Tabuk, and international destinations. Airlines are filing alternative routings. Passengers on Saudia and other carriers may experience delays of 20–40 minutes.","airline":"Saudia, flyadeal, Multiple International Carriers","airports":"RUH, TUU","effective_date":"2026-03-10","expiry_date":"2026-03-20","source":"https://www.gaca.gov.sa/notam","added_date":"2026-03-10"},{"id":"adv006","type":"info","title":"King Abdulaziz International Airport: New International Terminal Gates","body":"Jeddah's King Abdulaziz International Airport has opened 12 additional remote stands in the International Terminal South pier, increasing peak-hour capacity by 15%. No passenger disruption is expected. Buses are in operation to remote stands G25–G36.","airline":"All carriers operating JED","airports":"JED","effective_date":"2026-03-01","expiry_date":null,"source":"https://www.jed-airport.com/news","added_date":"2026-03-01"},{"id":"adv007","type":"info","title":"Qatar Airways: Upgraded Summer Schedule 2026","body":"Qatar Airways has published its IATA Summer 2026 schedule with additions of over 15 new destinations and frequency increases on 40 existing routes. The summer schedule runs from 29 March through 24 October 2026. Passengers with existing bookings should verify connecting times as minimum connect time at DOH changes on 29 March.","airline":"Qatar Airways","airports":"DOH","effective_date":"2026-03-29","expiry_date":"2026-10-24","source":"https://www.qatarairways.com/summer2026","added_date":"2026-03-04"}]};
 const AIRPORTS={"last_updated":"2026-03-10T06:00:00Z","airports":[{"iata":"DXB","icao":"OMDB","name":"Dubai International Airport","country":"United Arab Emirates","city":"Dubai","routes_tracked":24,"disruptions_active":2,"airlines_count":90,"terminal_count":3,"hub_for":["Emirates","Flydubai"],"website":"https://www.dubaiairports.ae"},{"iata":"AUH","icao":"OMAA","name":"Zayed International Airport","country":"United Arab Emirates","city":"Abu Dhabi","routes_tracked":14,"disruptions_active":1,"airlines_count":35,"terminal_count":1,"hub_for":["Etihad Airways","Air Arabia Abu Dhabi"],"website":"https://www.abudhabiairport.ae"},{"iata":"DOH","icao":"OTHH","name":"Hamad International Airport","country":"Qatar","city":"Doha","routes_tracked":18,"disruptions_active":1,"airlines_count":60,"terminal_count":1,"hub_for":["Qatar Airways"],"website":"https://www.qatarairports.com"},{"iata":"JED","icao":"OEJN","name":"King Abdulaziz International Airport","country":"Saudi Arabia","city":"Jeddah","routes_tracked":12,"disruptions_active":1,"airlines_count":45,"terminal_count":1,"hub_for":["Saudia","flyadeal"],"website":"https://www.jed-airport.com"},{"iata":"RUH","icao":"OERK","name":"King Khalid International Airport","country":"Saudi Arabia","city":"Riyadh","routes_tracked":10,"disruptions_active":2,"airlines_count":50,"terminal_count":5,"hub_for":["Saudia","Flynas"],"website":"https://www.rikairport.com"},{"iata":"MCT","icao":"OOMS","name":"Muscat International Airport","country":"Oman","city":"Muscat","routes_tracked":8,"disruptions_active":0,"airlines_count":30,"terminal_count":1,"hub_for":["Oman Air","SalamAir"],"website":"https://www.omanairports.co.om"},{"iata":"KWI","icao":"OKBK","name":"Kuwait International Airport","country":"Kuwait","city":"Kuwait City","routes_tracked":7,"disruptions_active":1,"airlines_count":25,"terminal_count":2,"hub_for":["Kuwait Airways","Jazeera Airways"],"website":"https://www.kuwaitairways.com"},{"iata":"BAH","icao":"OBBI","name":"Bahrain International Airport","country":"Bahrain","city":"Manama","routes_tracked":6,"disruptions_active":0,"airlines_count":22,"terminal_count":1,"hub_for":["Gulf Air"],"website":"https://www.bahrainairport.bh"}]};
+
+const UK_PAKISTAN={"last_updated":"2026-03-10T20:29:14Z","flights":[{"id":"ukp001","airline":"Pakistan International Airlines","flight_number":"PK785","origin":"London Heathrow","origin_iata":"LHR","destination":"Karachi","destination_iata":"KHI","route_type":"direct","status":"operating","frequency":"Daily","aircraft":"Boeing 777-200ER","notes":"Non-stop LHR–KHI. Departs 21:05 LHR, arrives 09:30+1 KHI.","source":"https://www.piac.com.pk/","added_date":"2026-03-10"},{"id":"ukp002","airline":"Pakistan International Airlines","flight_number":"PK781","origin":"London Heathrow","origin_iata":"LHR","destination":"Lahore","destination_iata":"LHE","route_type":"direct","status":"operating","frequency":"4x weekly","aircraft":"Boeing 777-200ER","notes":"Non-stop LHR–LHE. Mon/Wed/Fri/Sun departures.","source":"https://www.piac.com.pk/","added_date":"2026-03-10"},{"id":"ukp003","airline":"Pakistan International Airlines","flight_number":"PK787","origin":"London Heathrow","origin_iata":"LHR","destination":"Islamabad","destination_iata":"ISB","route_type":"direct","status":"delayed","frequency":"Daily","aircraft":"Boeing 777-200ER","notes":"Average 40–60 min delays reported this week due to ATC congestion at LHR. Monitor your booking.","source":"https://www.piac.com.pk/","added_date":"2026-03-10"},{"id":"ukp004","airline":"Pakistan International Airlines","flight_number":"PK789","origin":"Manchester","origin_iata":"MAN","destination":"Islamabad","destination_iata":"ISB","route_type":"direct","status":"operating","frequency":"3x weekly","aircraft":"Boeing 777-200ER","notes":"Non-stop MAN–ISB. Tue/Thu/Sat departures.","source":"https://www.piac.com.pk/","added_date":"2026-03-10"},{"id":"ukp005","airline":"Pakistan International Airlines","flight_number":"PK793","origin":"Manchester","origin_iata":"MAN","destination":"Lahore","destination_iata":"LHE","route_type":"direct","status":"operating","frequency":"3x weekly","aircraft":"Boeing 777-200ER","notes":"Non-stop MAN–LHE. Mon/Wed/Fri departures.","source":"https://www.piac.com.pk/","added_date":"2026-03-10"},{"id":"ukp006","airline":"Pakistan International Airlines","flight_number":"PK795","origin":"London Heathrow","origin_iata":"LHR","destination":"Peshawar","destination_iata":"PEW","route_type":"direct","status":"operating","frequency":"2x weekly","aircraft":"Boeing 777-200ER","notes":"Non-stop LHR–PEW. Wed/Sun departures.","source":"https://www.piac.com.pk/","added_date":"2026-03-10"},{"id":"ukp007","airline":"Emirates","flight_number":"EK via DXB","origin":"London Heathrow","origin_iata":"LHR","destination":"Karachi","destination_iata":"KHI","route_type":"via_gulf","via_hub":"Dubai (DXB)","status":"rerouted","frequency":"Multiple daily","aircraft":"Boeing 777 / A380","notes":"Connecting via DXB. Journey time extended ~1h 20m due to airspace rerouting on LHR–DXB sector.","source":"https://www.emirates.com/english/help/","added_date":"2026-03-10"},{"id":"ukp008","airline":"Emirates","flight_number":"EK via DXB","origin":"London Heathrow","origin_iata":"LHR","destination":"Lahore","destination_iata":"LHE","route_type":"via_gulf","via_hub":"Dubai (DXB)","status":"rerouted","frequency":"Daily","aircraft":"Boeing 777-300ER","notes":"Connecting via DXB. LHR–DXB sector affected by extended airspace routing — allow extra connection time.","source":"https://www.emirates.com/english/help/","added_date":"2026-03-10"},{"id":"ukp009","airline":"Qatar Airways","flight_number":"QR via DOH","origin":"London Heathrow","origin_iata":"LHR","destination":"Islamabad","destination_iata":"ISB","route_type":"via_gulf","via_hub":"Doha (DOH)","status":"delayed","frequency":"Multiple daily","aircraft":"Airbus A350 / Boeing 787","notes":"Connecting via DOH. 40–60 min delays on LHR–DOH sector this week. Minimum connect time at DOH is 90 min.","source":"https://www.qatarairways.com/en/travel-alerts.html","added_date":"2026-03-10"},{"id":"ukp010","airline":"Qatar Airways","flight_number":"QR via DOH","origin":"London Heathrow","origin_iata":"LHR","destination":"Lahore","destination_iata":"LHE","route_type":"via_gulf","via_hub":"Doha (DOH)","status":"operating","frequency":"Daily","aircraft":"Airbus A350-900","notes":"Operating normally via DOH. LHR–DOH–LHE. Minimum connect time at DOH is 90 min.","source":"https://www.qatarairways.com/en/travel-alerts.html","added_date":"2026-03-10"},{"id":"ukp011","airline":"Qatar Airways","flight_number":"QR via DOH","origin":"London Heathrow","origin_iata":"LHR","destination":"Karachi","destination_iata":"KHI","route_type":"via_gulf","via_hub":"Doha (DOH)","status":"operating","frequency":"Daily","aircraft":"Airbus A350-900","notes":"Operating normally via DOH. LHR–DOH–KHI.","source":"https://www.qatarairways.com/en/travel-alerts.html","added_date":"2026-03-10"},{"id":"ukp012","airline":"Etihad Airways","flight_number":"EY via AUH","origin":"London Heathrow","origin_iata":"LHR","destination":"Islamabad","destination_iata":"ISB","route_type":"via_gulf","via_hub":"Abu Dhabi (AUH)","status":"operating","frequency":"Daily","aircraft":"Boeing 787-9","notes":"Operating normally via AUH. LHR–AUH–ISB. Check-in from T4 at LHR.","source":"https://www.etihad.com/en/help/travel-updates","added_date":"2026-03-10"},{"id":"ukp013","airline":"Etihad Airways","flight_number":"EY via AUH","origin":"London Heathrow","origin_iata":"LHR","destination":"Karachi","destination_iata":"KHI","route_type":"via_gulf","via_hub":"Abu Dhabi (AUH)","status":"operating","frequency":"Daily","aircraft":"Boeing 787-9","notes":"Operating normally via AUH. LHR–AUH–KHI.","source":"https://www.etihad.com/en/help/travel-updates","added_date":"2026-03-10"},{"id":"ukp014","airline":"Turkish Airlines","flight_number":"TK via IST","origin":"London Heathrow","origin_iata":"LHR","destination":"Islamabad","destination_iata":"ISB","route_type":"via_other","via_hub":"Istanbul (IST)","status":"operating","frequency":"Daily","aircraft":"Airbus A330 / Boeing 787","notes":"Operating normally via Istanbul Atatürk. LHR–IST–ISB. Also covers LHE and KHI connections.","source":"https://www.turkishairlines.com/","added_date":"2026-03-10"},{"id":"ukp015","airline":"Air Arabia","flight_number":"G9 via SHJ","origin":"London Gatwick","origin_iata":"LGW","destination":"Multiple Pakistan","destination_iata":"KHI/LHE/ISB","route_type":"via_gulf","via_hub":"Sharjah (SHJ)","status":"operating","frequency":"3x weekly","aircraft":"Airbus A320","notes":"Budget option via Sharjah. Covers KHI, LHE, ISB connections. LGW–SHJ–Pakistan.","source":"https://www.airarabia.com/en/help","added_date":"2026-03-10"}]};
 
 /* helpers */
 const AC={Emirates:'#CC0001','Qatar Airways':'#5C0632','Etihad Airways':'#BD8B13',Flydubai:'#E4002B','Air Arabia':'#FF5733',Saudia:'#006400','Kuwait Airways':'#1E88E5','Gulf Air':'#003580'};
@@ -381,6 +432,67 @@ function wireS(iId,tId,isCards){
   });
 }
 
+/* ── UK → PAKISTAN SECTION ── */
+function fUKP(filter, btn){
+  document.querySelectorAll('#ukp-controls .fbtn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('#tb-ukp tr[data-rt]').forEach(r=>{
+    const rt=r.dataset.rt, st=r.dataset.status;
+    let show=false;
+    if(filter==='all') show=true;
+    else if(filter==='direct') show=(rt==='direct');
+    else if(filter==='via_gulf') show=(rt==='via_gulf');
+    else if(filter==='issues') show=(st==='delayed'||st==='rerouted'||st==='suspended'||st==='cancelled'||st==='diverted');
+    r.style.display=show?'':'none';
+  });
+}
+function renderUKP(){
+  const flights=UK_PAKISTAN.flights||[];
+  document.getElementById('c-ukp').textContent=flights.length;
+  const direct=flights.filter(f=>f.route_type==='direct').length;
+  const viaGulf=flights.filter(f=>f.route_type==='via_gulf').length;
+  const issues=flights.filter(f=>['delayed','rerouted','suspended'].includes((f.status||'').toLowerCase())).length;
+  const ops=flights.filter(f=>f.status==='operating').length;
+  document.getElementById('ukp-summary').innerHTML=`
+    <div class="ukp-stat"><div class="ukp-stat-n" style="color:var(--accent)">${flights.length}</div><div class="ukp-stat-l">Total Routes</div></div>
+    <div class="ukp-stat"><div class="ukp-stat-n" style="color:var(--green)">${direct}</div><div class="ukp-stat-l">Direct Flights</div></div>
+    <div class="ukp-stat"><div class="ukp-stat-n" style="color:var(--purple)">${viaGulf}</div><div class="ukp-stat-l">Via Gulf Hub</div></div>
+    <div class="ukp-stat"><div class="ukp-stat-n" style="color:var(--green)">${ops}</div><div class="ukp-stat-l">Operating</div></div>
+    <div class="ukp-stat"><div class="ukp-stat-n" style="color:var(--red)">${issues}</div><div class="ukp-stat-l">With Issues</div></div>
+    <div style="font-size:.74rem;color:var(--muted);max-width:28ch;line-height:1.5">✈️ Covering LHR, MAN, LGW → KHI, LHE, ISB, PEW and more</div>
+  `;
+  const rtLabel={direct:'Direct',via_gulf:'Via Gulf',via_other:'Via Other'};
+  const rtClass={direct:'rt-direct',via_gulf:'rt-via',via_other:'rt-other'};
+  const rows=flights.map(f=>{
+    const via=f.via_hub?`<div class="via-hub">via ${f.via_hub}</div>`:'';
+    const rtCls=rtClass[f.route_type]||'rt-other';
+    const rtLbl=rtLabel[f.route_type]||f.route_type;
+    const search=`${f.airline}${f.origin}${f.destination}${f.notes||''}${f.via_hub||''}`.toLowerCase();
+    return `<tr data-rt="${f.route_type}" data-status="${f.status}" data-search="${search}">
+      <td><div class="td-al"><div class="al-dot" style="background:${alC(f.airline)}"></div><div><div style="font-weight:700">${f.airline}</div><div style="font-size:.72rem;color:var(--muted);font-family:var(--mono)">${f.flight_number||''}</div></div></div></td>
+      <td><div style="font-weight:600">${f.origin}</div><span class="iata-tag">${f.origin_iata}</span></td>
+      <td><div style="font-weight:600">${f.destination}</div><span class="iata-tag">${f.destination_iata}</span></td>
+      <td><span class="rt-badge ${rtCls}">${rtLbl}</span>${via}</td>
+      <td style="font-size:.8rem;color:var(--text2)">${f.frequency||'–'}</td>
+      <td>${badge(f.status)}</td>
+      <td class="td-note">${f.notes||'–'}</td>
+      <td>${f.source?`<a class="sl" href="${f.source}" target="_blank" rel="noopener">↗</a>`:''}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tb-ukp').innerHTML=rows||`<tr><td colspan="8">${mt('No UK–Pakistan flight data available.')}</td></tr>`;
+  // Wire search
+  const si=document.getElementById('fs-ukp');
+  if(si) si.addEventListener('input',()=>{
+    const q=si.value.toLowerCase();
+    document.querySelectorAll('#tb-ukp tr[data-search]').forEach(r=>{r.style.display=r.dataset.search.includes(q)?'':'none'});
+  });
+  // Wire filter buttons to the correct parent
+  document.querySelectorAll('#uk-pakistan .fbtn').forEach(b=>{
+    const oc=b.getAttribute('onclick');
+    if(oc && oc.includes('fUKP')) b.id='ukp-ctrl-'+b.textContent.trim().replace(/\s+/g,'-').toLowerCase();
+  });
+}
+
 function render(){
   const dis=DISRUPTIONS.disruptions||[];
   const rts=ROUTES.routes||[];
@@ -419,6 +531,7 @@ function render(){
   document.getElementById('ap-grid').innerHTML=aps.map(apCard).join('');
 }
 render();
+renderUKP();
 </script>
 </body>
 </html>

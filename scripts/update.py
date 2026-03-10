@@ -94,6 +94,50 @@ SEARCH_QUERIES = [
     "airline route change Gulf countries March 2026",
 ]
 
+UK_PAKISTAN_QUERIES = [
+    "UK Pakistan flights disruption delay 2026",
+    "PIA Pakistan International Airlines London route 2026",
+    "London Heathrow Manchester Birmingham Karachi Lahore Islamabad flight update",
+    "Emirates Qatar Airways Etihad Pakistan UK flight status",
+    "Pakistan UK airspace restriction flight delay 2026",
+]
+
+UK_AIRPORTS  = ["LHR", "MAN", "LGW", "BHX", "EDI", "London", "Manchester", "Birmingham", "Gatwick"]
+PAK_AIRPORTS = ["KHI", "LHE", "ISB", "PEW", "SKT", "MUX", "UET",
+                "Karachi", "Lahore", "Islamabad", "Peshawar", "Sialkot", "Multan"]
+
+UK_PAK_EXTRACTION_PROMPT = """Extract all flight status updates for routes between UK airports and Pakistan airports.
+
+UK airports: LHR (London Heathrow), MAN (Manchester), LGW (London Gatwick), BHX (Birmingham).
+Pakistan airports: KHI (Karachi), LHE (Lahore), ISB (Islamabad), PEW (Peshawar), SKT (Sialkot), MUX (Multan).
+Airlines: PIA (Pakistan International Airlines), Emirates, Qatar Airways, Etihad, Turkish Airlines, Air Arabia, Flydubai.
+
+Article URL: {url}
+Article content:
+{content}
+
+Return JSON with a "flights" array. Each entry:
+{{
+  "id": "ukp_<short_random>",
+  "airline": "airline name",
+  "flight_number": "flight number or 'via HUB'",
+  "origin": "UK city",
+  "origin_iata": "IATA code",
+  "destination": "Pakistan city",
+  "destination_iata": "IATA code",
+  "route_type": "direct" | "via_gulf" | "via_other",
+  "via_hub": "hub city (IATA) if connecting, else null",
+  "status": "operating" | "delayed" | "rerouted" | "suspended" | "cancelled" | "diverted",
+  "frequency": "e.g. Daily or 3x weekly",
+  "aircraft": "aircraft type or null",
+  "notes": "concise status note max 160 chars",
+  "source": "{url}",
+  "added_date": "{today}"
+}}
+
+Only include UK↔Pakistan routes. If no relevant flights found, return {{"flights": []}}.
+"""
+
 # Trusted sources
 TRUSTED_DOMAINS = [
     "simpleflying.com",
@@ -392,6 +436,90 @@ def update_routes(new_entries: list[dict]) -> int:
     return added
 
 
+def update_uk_pakistan(dry_run: bool = False) -> int:
+    """Search for UK-Pakistan flight updates and refresh uk_pakistan.json."""
+    path = DATA_DIR / "uk_pakistan.json"
+    data = load_json(path)
+    existing = {f["id"]: f for f in data.get("flights", [])}
+
+    new_flights: list[dict] = []
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key or not HAS_ANTHROPIC:
+        log.warning("Skipping UK-Pakistan update — no ANTHROPIC_API_KEY")
+        return 0
+
+    client = anthropic.Anthropic(api_key=api_key)
+
+    for query in UK_PAKISTAN_QUERIES:
+        log.info("🔍 UK-Pakistan search: %s", query)
+        results = search_aviation_news(query, num_results=4)
+        for item in results:
+            url = item.get("url", "")
+            if not url:
+                continue
+            combined = (item.get("title","") + item.get("snippet","")).lower()
+            relevant = (
+                any(a.lower() in combined for a in ["pia","pakistan","islamabad","lahore","karachi","peshawar"]) and
+                any(b.lower() in combined for b in ["london","manchester","birmingham","uk","heathrow","gatwick"])
+            )
+            if not relevant:
+                continue
+
+            content = fetch_article(url, max_chars=4000)
+            if not content:
+                continue
+
+            prompt = UK_PAK_EXTRACTION_PROMPT.format(url=url, content=content[:3500], today=TODAY_STR)
+            try:
+                msg = client.messages.create(
+                    model="claude-haiku-4-5-20251001",
+                    max_tokens=1200,
+                    messages=[{"role": "user", "content": prompt}],
+                    system="You are an aviation data extractor. Return ONLY valid JSON, no markdown.",
+                )
+                raw = msg.content[0].text.strip()
+                if raw.startswith("```"):
+                    raw = raw.split("```")[1]
+                    if raw.startswith("json"): raw = raw[4:]
+                extracted = json.loads(raw).get("flights", [])
+                for f in extracted:
+                    fid = f.get("id") or ("ukp_" + uuid.uuid4().hex[:8])
+                    f["id"] = fid
+                    f.setdefault("added_date", TODAY_STR)
+                    new_flights.append(f)
+                log.info("   Extracted %d UK-Pak flights from %s", len(extracted), url[:60])
+            except Exception as e:
+                log.warning("UK-Pak extraction failed: %s", e)
+            time.sleep(0.5)
+        time.sleep(1)
+
+    if not new_flights:
+        log.info("No UK-Pakistan updates found — keeping existing data")
+        # Still bump timestamp
+        data["last_updated"] = NOW_UTC.isoformat()
+        if not dry_run:
+            save_json(path, data)
+        return 0
+
+    # Merge: new entries override by (airline, origin_iata, destination_iata)
+    merged = {f["id"]: f for f in new_flights}
+    for fid, f in existing.items():
+        key = (f.get("airline",""), f.get("origin_iata",""), f.get("destination_iata",""))
+        if not any(
+            (nf.get("airline",""), nf.get("origin_iata",""), nf.get("destination_iata","")) == key
+            for nf in new_flights
+        ):
+            merged[fid] = f  # keep old entry if not replaced
+
+    data["flights"]      = list(merged.values())
+    data["last_updated"] = NOW_UTC.isoformat()
+
+    if not dry_run:
+        save_json(path, data)
+    log.info("✅ UK-Pakistan: %d entries saved", len(data["flights"]))
+    return len(new_flights)
+
+
 def update_advisories(new_entries: list[dict]) -> int:
     path = DATA_DIR / "advisories.json"
     data = load_json(path)
@@ -435,7 +563,8 @@ def git_commit_and_push(repo_path: Path, message: str) -> bool:
         subprocess.run(
             ["git", "-C", str(repo_path), "add",
              "data/disruptions.json", "data/routes.json",
-             "data/advisories.json", "data/airports.json"],
+             "data/advisories.json", "data/airports.json",
+             "data/uk_pakistan.json"],
             check=True, capture_output=True,
         )
         result = subprocess.run(
@@ -517,9 +646,10 @@ def run_update(dry_run: bool = False, force_commit: bool = False) -> None:
     d_added   = update_disruptions(all_entries)
     r_added   = update_routes(all_entries)
     adv_added = update_advisories(all_entries)
-    total     = d_added + r_added + adv_added
+    ukp_added = update_uk_pakistan(dry_run=False)
+    total     = d_added + r_added + adv_added + ukp_added
 
-    log.info("✅ Added: %d disruptions, %d routes, %d advisories", d_added, r_added, adv_added)
+    log.info("✅ Added: %d disruptions, %d routes, %d advisories, %d UK-Pakistan", d_added, r_added, adv_added, ukp_added)
 
     # Git commit
     if total > 0 or force_commit:
