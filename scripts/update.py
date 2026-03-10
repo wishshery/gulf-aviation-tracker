@@ -651,14 +651,16 @@ def run_update(dry_run: bool = False, force_commit: bool = False) -> None:
 
     log.info("✅ Added: %d disruptions, %d routes, %d advisories, %d UK-Pakistan", d_added, r_added, adv_added, ukp_added)
 
-    # Git commit
-    if total > 0 or force_commit:
+    # Git commit is handled by the GitHub Actions workflow (embed_data.py runs after this)
+    # Only commit locally when running outside CI
+    import os as _os
+    if not _os.getenv("GITHUB_ACTIONS") and (total > 0 or force_commit):
         msg = f"Daily Gulf aviation update — {TODAY_STR} ({total} new entries)"
         committed = git_commit_and_push(REPO_ROOT, msg)
         if committed:
-            log.info("🚀 Deployment triggered via git push")
+            log.info("🚀 Git commit pushed")
     else:
-        log.info("No new entries — skipping git commit")
+        log.info("Data files updated — GitHub Actions will embed + commit")
 
     log.info("━━━ Update complete ━━━")
 

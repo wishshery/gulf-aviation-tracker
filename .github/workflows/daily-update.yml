@@ -57,7 +57,7 @@ jobs:
           git config user.name  "Gulf Aviation Bot"
           git config user.email "gulf-aviation-bot@users.noreply.github.com"
 
-      # ── 5. Run update script ──────────────────────────────────────────
+      # ── 5. Run update script (fetches live data → data/*.json) ──────────
       - name: Run aviation update
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -74,20 +74,21 @@ jobs:
           fi
           python scripts/update.py $FLAGS
 
-      # ── 6. Push changes (update.py handles git, but fallback here) ────
-      - name: Push data changes
+      # ── 6. Embed fresh JSON into index.html ───────────────────────────
+      - name: Embed live data into index.html
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: python scripts/embed_data.py
+
+      # ── 7. Commit index.html + data files and push ────────────────────
+      - name: Commit and push all changes
+        if: ${{ github.event.inputs.dry_run != 'true' }}
         run: |
+          git add data/ index.html
           if git diff --cached --quiet; then
-            echo "Nothing staged — checking unstaged changes"
-            git add data/
-            if git diff --cached --quiet; then
-              echo "No changes to push"
-            else
-              git commit -m "Daily Gulf aviation update — $(date -u +%Y-%m-%d)"
-              git push
-            fi
+            echo "No changes to commit"
           else
-            git push || true
+            git commit -m "Daily Gulf aviation update — $(date -u +%Y-%m-%d)"
+            git push
           fi
 
   # ── Notification job on failure ────────────────────────────────────────
