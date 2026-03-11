@@ -71,7 +71,7 @@
     .sh-icon{font-size:1.25rem}
     .sh h2{font-size:1.15rem;font-weight:800;letter-spacing:-.01em}
     .cb{font-size:.7rem;font-family:var(--mono);font-weight:600;background:var(--surface3);border:1px solid var(--border);color:var(--text2);padding:2px 9px;border-radius:999px}
-    .fr{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center}
+    .fr{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;row-gap:.45rem}
     .fsearch{background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:.82rem;padding:6px 14px;border-radius:999px;font-family:var(--font);outline:none;min-width:190px}
     .fsearch::placeholder{color:var(--muted)}
     .fsearch:focus{border-color:var(--accent)}
@@ -89,7 +89,7 @@
     .b-purple{background:rgba(168,85,247,.12);color:var(--purple);border:1px solid rgba(168,85,247,.25)}.b-purple::before{background:var(--purple)}
 
     /* TABLE */
-    .tw{overflow-x:auto;border-radius:var(--r);border:1px solid var(--border)}
+    .tw{overflow-x:auto;border-radius:var(--r);border:1px solid var(--border);-webkit-overflow-scrolling:touch}
     table{width:100%;border-collapse:collapse;font-size:.865rem}
     thead{background:var(--surface2)}
     thead th{padding:.7rem 1rem;text-align:left;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
@@ -163,9 +163,91 @@
     .ukp-stat-n{font-family:var(--mono);font-size:1.4rem;font-weight:900}
     .ukp-stat-l{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
 
-    /* RESPONSIVE */
-    @media(max-width:900px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:600px){.nav-links{display:none}.cards{grid-template-columns:1fr}.ap-grid{grid-template-columns:1fr 1fr}.hero-stats{grid-template-columns:repeat(2,1fr)}}
+    /* ── HAMBURGER ── */
+    .ham{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:8px 6px;border:none;background:none;border-radius:6px;min-height:44px;min-width:44px}
+    .ham span{display:block;width:22px;height:2px;background:var(--text2);border-radius:2px;transition:all .25s}
+    .ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .ham.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+    .ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mob-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(8,13,24,.97);z-index:300;flex-direction:column;align-items:stretch;justify-content:center;gap:0;overflow-y:auto}
+    .mob-menu.open{display:flex}
+    .mob-menu a{color:var(--text);font-size:1.15rem;font-weight:700;padding:1rem 2rem;border-bottom:1px solid var(--border);transition:color .15s,background .15s;text-decoration:none;display:block}
+    .mob-menu a:hover{color:var(--accent);background:rgba(14,165,233,.07)}
+    .mob-close{position:absolute;top:.9rem;right:1.1rem;font-size:1.5rem;color:var(--text2);background:none;border:none;cursor:pointer;padding:.5rem;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+
+    /* ── MOBILE STACKED TABLE (≤640px) ── */
+    @media(max-width:640px){
+      .tw{border:none;border-radius:0;background:transparent}
+      table,thead,tbody,th,td,tr{display:block;width:100%}
+      thead tr{position:absolute;top:-9999px;left:-9999px;visibility:hidden}
+      tbody tr{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:.75rem;overflow:hidden}
+      tbody tr:last-child{margin-bottom:0}
+      td{display:flex;align-items:flex-start;gap:.55rem;padding:.6rem .9rem;border-bottom:1px solid rgba(30,45,69,.3);font-size:.83rem}
+      td:last-child{border-bottom:none}
+      td::before{content:attr(data-label);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);min-width:68px;padding-top:3px;flex-shrink:0}
+      td.td-note{flex-direction:column;gap:.25rem}
+      td.td-note::before{min-width:unset}
+      .td-al{flex-wrap:wrap}
+    }
+
+    /* ── TABLET (641–900px) ── */
+    @media(min-width:641px) and (max-width:900px){
+      .hero-stats{grid-template-columns:repeat(2,1fr)}
+      .ap-grid{grid-template-columns:repeat(2,1fr)}
+      .cards{grid-template-columns:repeat(2,1fr)}
+      .fg-grid{grid-template-columns:repeat(2,1fr)}
+    }
+
+    /* ── PHONE (≤640px) ── */
+    @media(max-width:640px){
+      .ham{display:flex}
+      .nav-links{display:none}
+      .nav-inner{padding:.5rem 0}
+      .container{padding:0 .9rem}
+      .section{padding:1.75rem 0}
+      .hero-img-wrap img{height:190px}
+      .hero-body{padding:1.2rem 0 1.6rem}
+      h1{font-size:1.75rem}
+      .hero-sub{font-size:.87rem;margin:.45rem 0 .9rem;max-width:100%}
+      .hero-chips{gap:.35rem}
+      .chip{font-size:.7rem;padding:3px 9px}
+      .hero-stats{grid-template-columns:repeat(2,1fr);gap:.5rem;margin-top:.9rem}
+      .hstat{padding:.75rem .5rem}
+      .hstat-num{font-size:1.45rem}
+      .hstat-label{font-size:.6rem}
+      .sh{flex-direction:column;align-items:flex-start;gap:.55rem;margin-bottom:.9rem}
+      .sh h2{font-size:.98rem}
+      .sh-l{flex-wrap:wrap;gap:.4rem}
+      .fr{width:100%;gap:.4rem}
+      .fsearch{min-width:0;width:100%;font-size:.85rem;padding:10px 14px;border-radius:10px}
+      .fbtn{padding:9px 14px;font-size:.8rem;min-height:40px;border-radius:10px}
+      .cards{grid-template-columns:1fr}
+      .ap-grid{grid-template-columns:1fr 1fr}
+      .adv{padding:.8rem .95rem}
+      .adv-title{font-size:.84rem}
+      .adv-hd{flex-direction:column;gap:.35rem}
+      .adv-meta{gap:.5rem;font-size:.7rem}
+      .ukp-hero{flex-direction:column;gap:.6rem;padding:.85rem 1rem}
+      .ukp-stat-n{font-size:1.2rem}
+      .fg-grid{grid-template-columns:1fr 1fr}
+      .fb{flex-direction:column;gap:.2rem;font-size:.7rem}
+      footer{padding:1.75rem 0 1.25rem}
+    }
+
+    /* ── EXTRA SMALL (≤380px) ── */
+    @media(max-width:380px){
+      h1{font-size:1.45rem}
+      .hstat-num{font-size:1.25rem}
+      .ap-grid{grid-template-columns:1fr}
+      .fg-grid{grid-template-columns:1fr}
+    }
+
+    /* ── TOUCH DEVICES ── */
+    @media(hover:none) and (pointer:coarse){
+      .fbtn{min-height:44px}
+      .hstat{padding:1rem .75rem}
+      .card:hover,.ap:hover{transform:none;box-shadow:none}
+    }
   </style>
 </head>
 <body>
@@ -183,8 +265,23 @@
       <li><a href="#uk-pakistan">UK → Pakistan</a></li>
       <li><a href="#airports">Airports</a></li>
     </ul>
+    <button class="ham" id="ham-btn" aria-label="Open menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- MOBILE FULL-SCREEN NAV MENU -->
+<div class="mob-menu" id="mob-menu">
+  <button class="mob-close" aria-label="Close menu" onclick="toggleMenu()">✕</button>
+  <a href="#disruptions" onclick="toggleMenu()">⚠️ Disruptions</a>
+  <a href="#new-routes"  onclick="toggleMenu()">🛫 New Routes</a>
+  <a href="#suspended"   onclick="toggleMenu()">🚫 Suspended</a>
+  <a href="#resumed"     onclick="toggleMenu()">🔄 Resumed</a>
+  <a href="#advisories"  onclick="toggleMenu()">📢 Advisories</a>
+  <a href="#uk-pakistan" onclick="toggleMenu()">🇬🇧✈️🇵🇰 UK → Pakistan</a>
+  <a href="#airports"    onclick="toggleMenu()">🏢 Airports</a>
+</div>
 
 <!-- HERO -->
 <header class="hero">
@@ -372,12 +469,12 @@ const fTs=t=>{if(!t)return'–';try{return new Date(t).toLocaleString('en-GB',{d
 const mt=m=>`<div style="text-align:center;padding:2.5rem;color:var(--muted);font-size:.9rem">✈️<br><br>${m}</div>`;
 
 const disRow=d=>`<tr data-status="${(d.status||'').toLowerCase()}" data-search="${(d.airline+d.route+d.notes).toLowerCase()}">
-  <td><div class="td-al"><div class="al-dot" style="background:${alC(d.airline)}"></div>${d.airline||'–'}</div></td>
-  <td class="td-rt">${d.route||`${d.origin||'–'} \u2192 ${d.destination||'–'}`}</td>
-  <td>${badge(d.status)}</td>
-  <td class="td-date">${fD(d.effective_date)}</td>
-  <td class="td-note">${d.notes||'–'}</td>
-  <td>${d.source?`<a class="sl" href="${d.source}" target="_blank" rel="noopener">\u2197</a>`:''}</td>
+  <td data-label="Airline"><div class="td-al"><div class="al-dot" style="background:${alC(d.airline)}"></div>${d.airline||'–'}</div></td>
+  <td data-label="Route" class="td-rt">${d.route||`${d.origin||'–'} \u2192 ${d.destination||'–'}`}</td>
+  <td data-label="Status">${badge(d.status)}</td>
+  <td data-label="Date" class="td-date">${fD(d.effective_date)}</td>
+  <td data-label="Notes" class="td-note">${d.notes||'–'}</td>
+  <td data-label="Source">${d.source?`<a class="sl" href="${d.source}" target="_blank" rel="noopener">\u2197 View</a>`:''}</td>
 </tr>`;
 
 const rCard=(r,t)=>{const c={new:'cn',suspended:'cs',resumed:'cr'}[t]||'cn';return`<div class="card ${c}">
@@ -469,14 +566,14 @@ function renderUKP(){
     const rtLbl=rtLabel[f.route_type]||f.route_type;
     const search=`${f.airline}${f.origin}${f.destination}${f.notes||''}${f.via_hub||''}`.toLowerCase();
     return `<tr data-rt="${f.route_type}" data-status="${f.status}" data-search="${search}">
-      <td><div class="td-al"><div class="al-dot" style="background:${alC(f.airline)}"></div><div><div style="font-weight:700">${f.airline}</div><div style="font-size:.72rem;color:var(--muted);font-family:var(--mono)">${f.flight_number||''}</div></div></div></td>
-      <td><div style="font-weight:600">${f.origin}</div><span class="iata-tag">${f.origin_iata}</span></td>
-      <td><div style="font-weight:600">${f.destination}</div><span class="iata-tag">${f.destination_iata}</span></td>
-      <td><span class="rt-badge ${rtCls}">${rtLbl}</span>${via}</td>
-      <td style="font-size:.8rem;color:var(--text2)">${f.frequency||'–'}</td>
-      <td>${badge(f.status)}</td>
-      <td class="td-note">${f.notes||'–'}</td>
-      <td>${f.source?`<a class="sl" href="${f.source}" target="_blank" rel="noopener">↗</a>`:''}</td>
+      <td data-label="Airline"><div class="td-al"><div class="al-dot" style="background:${alC(f.airline)}"></div><div><div style="font-weight:700">${f.airline}</div><div style="font-size:.72rem;color:var(--muted);font-family:var(--mono)">${f.flight_number||''}</div></div></div></td>
+      <td data-label="From"><div style="font-weight:600">${f.origin}</div><span class="iata-tag">${f.origin_iata}</span></td>
+      <td data-label="To"><div style="font-weight:600">${f.destination}</div><span class="iata-tag">${f.destination_iata}</span></td>
+      <td data-label="Type"><span class="rt-badge ${rtCls}">${rtLbl}</span>${via}</td>
+      <td data-label="Freq" style="font-size:.8rem;color:var(--text2)">${f.frequency||'–'}</td>
+      <td data-label="Status">${badge(f.status)}</td>
+      <td data-label="Notes" class="td-note">${f.notes||'–'}</td>
+      <td data-label="Source">${f.source?`<a class="sl" href="${f.source}" target="_blank" rel="noopener">↗ View</a>`:''}</td>
     </tr>`;
   }).join('');
   document.getElementById('tb-ukp').innerHTML=rows||`<tr><td colspan="8">${mt('No UK–Pakistan flight data available.')}</td></tr>`;
@@ -492,6 +589,24 @@ function renderUKP(){
     if(oc && oc.includes('fUKP')) b.id='ukp-ctrl-'+b.textContent.trim().replace(/\s+/g,'-').toLowerCase();
   });
 }
+
+/* ── MOBILE MENU ── */
+function toggleMenu(){
+  const btn=document.getElementById('ham-btn');
+  const menu=document.getElementById('mob-menu');
+  const open=menu.classList.toggle('open');
+  btn.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+// Close menu on resize to desktop
+window.addEventListener('resize',()=>{
+  if(window.innerWidth>640){
+    document.getElementById('mob-menu').classList.remove('open');
+    document.getElementById('ham-btn').classList.remove('open');
+    document.body.style.overflow='';
+  }
+});
+
 
 function render(){
   const dis=DISRUPTIONS.disruptions||[];
