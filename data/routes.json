@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-07T07:13:24.370412+00:00",
+  "last_updated": "2026-04-08T07:15:49.761361+00:00",
   "routes": [
     {
       "id": "r001",
@@ -91,20 +91,6 @@
       "description": "Saudia launches new service connecting King Khalid International Airport to Tbilisi International, supporting growing tourism and business travel between Saudi Arabia and Georgia.",
       "source": "https://www.saudia.com/press-releases",
       "added_date": "2026-02-25"
-    },
-    {
-      "id": "r008",
-      "airline": "Saudia",
-      "origin": "Jeddah",
-      "destination": "Beirut",
-      "status": "suspended",
-      "start_date": null,
-      "suspension_date": "2026-02-20",
-      "frequency": null,
-      "aircraft": null,
-      "description": "Saudia suspended Jeddah–Beirut service pending review. Passengers affected are being rerouted via Cairo or Amman with partner carriers.",
-      "source": "https://www.saudia.com/en/info/travel-alerts",
-      "added_date": "2026-02-21"
     },
     {
       "id": "r011",

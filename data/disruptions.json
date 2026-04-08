@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-07T07:13:24.370412+00:00",
+  "last_updated": "2026-04-08T07:15:49.761361+00:00",
   "disruptions": [
     {
       "id": "d001",
@@ -48,18 +48,6 @@
       "notes": "Service operating on adjusted schedule. FZ571 departs 02:40 local instead of 01:15. Passengers advised to recheck booking.",
       "source": "https://www.flydubai.com/en/customer-support/schedule-changes",
       "added_date": "2026-03-08"
-    },
-    {
-      "id": "d005",
-      "airline": "Saudia",
-      "origin": "Riyadh",
-      "destination": "Beirut",
-      "route": "Riyadh → Beirut",
-      "status": "suspended",
-      "effective_date": "2026-02-20",
-      "notes": "Route suspended until further notice pending review of operating permits. Passengers advised to seek alternative connections via Amman or Cairo.",
-      "source": "https://www.saudia.com/en/info/travel-alerts",
-      "added_date": "2026-02-21"
     },
     {
       "id": "d006",
