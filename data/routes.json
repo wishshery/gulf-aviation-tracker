@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-11T06:59:01.375656+00:00",
+  "last_updated": "2026-04-12T07:11:24.706944+00:00",
   "routes": [
     {
       "id": "r001",
@@ -78,19 +78,6 @@
       "description": "Qatar Airways makes history becoming first Gulf carrier to operate direct flights to Uruguay, connecting Hamad International to Carrasco International Airport.",
       "source": "https://www.qatarairways.com/pressrelease/2026/southamerica",
       "added_date": "2026-03-01"
-    },
-    {
-      "id": "r007",
-      "airline": "Saudia",
-      "origin": "Riyadh",
-      "destination": "Tbilisi",
-      "status": "new",
-      "start_date": "2026-05-01",
-      "frequency": "4x weekly",
-      "aircraft": "Airbus A320",
-      "description": "Saudia launches new service connecting King Khalid International Airport to Tbilisi International, supporting growing tourism and business travel between Saudi Arabia and Georgia.",
-      "source": "https://www.saudia.com/press-releases",
-      "added_date": "2026-02-25"
     },
     {
       "id": "r011",
