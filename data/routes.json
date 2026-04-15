@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-14T07:28:08.962692+00:00",
+  "last_updated": "2026-04-15T07:28:15.790282+00:00",
   "routes": [
     {
       "id": "r001",
@@ -26,19 +26,6 @@
       "description": "Emirates expands Philippine network with new daily service to Cebu Mactan-Cebu International Airport. EK348/349 effective 15 May 2026.",
       "source": "https://www.emirates.com/media-centre/new-routes-2026",
       "added_date": "2026-03-02"
-    },
-    {
-      "id": "r003",
-      "airline": "Etihad Airways",
-      "origin": "Abu Dhabi",
-      "destination": "Edinburgh",
-      "status": "new",
-      "start_date": "2026-07-01",
-      "frequency": "5x weekly",
-      "aircraft": "Boeing 787-9",
-      "description": "Etihad expands UK network with first direct service from Abu Dhabi to Edinburgh Airport, filling a long-awaited route gap for Scottish travelers.",
-      "source": "https://www.etihad.com/press-releases/edinburgh-launch",
-      "added_date": "2026-02-28"
     },
     {
       "id": "r004",
@@ -78,19 +65,6 @@
       "description": "Qatar Airways makes history becoming first Gulf carrier to operate direct flights to Uruguay, connecting Hamad International to Carrasco International Airport.",
       "source": "https://www.qatarairways.com/pressrelease/2026/southamerica",
       "added_date": "2026-03-01"
-    },
-    {
-      "id": "r011",
-      "airline": "Etihad Airways",
-      "origin": "Abu Dhabi",
-      "destination": "Kuala Lumpur",
-      "status": "resumed",
-      "start_date": "2026-03-15",
-      "frequency": "Daily",
-      "aircraft": "Boeing 787-9",
-      "description": "Etihad Airways resumes daily Abu Dhabi–Kuala Lumpur service following winter schedule. Full frequency returns from 15 March 2026, replacing the reduced seasonal 4x weekly operation.",
-      "source": "https://www.etihad.com/press-releases",
-      "added_date": "2026-02-28"
     },
     {
       "id": "r012",
