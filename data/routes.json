@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-15T07:28:15.790282+00:00",
+  "last_updated": "2026-04-16T07:42:58.916749+00:00",
   "routes": [
     {
       "id": "r001",
@@ -52,19 +52,6 @@
       "description": "Air Arabia reinforces South India connectivity with daily Sharjah–Calicut (Kozhikode) service catering to the large Kerala expat community in the UAE.",
       "source": "https://www.airarabia.com/press-releases",
       "added_date": "2026-03-08"
-    },
-    {
-      "id": "r006",
-      "airline": "Qatar Airways",
-      "origin": "Doha",
-      "destination": "Montevideo",
-      "status": "new",
-      "start_date": "2026-08-01",
-      "frequency": "3x weekly",
-      "aircraft": "Boeing 787-9",
-      "description": "Qatar Airways makes history becoming first Gulf carrier to operate direct flights to Uruguay, connecting Hamad International to Carrasco International Airport.",
-      "source": "https://www.qatarairways.com/pressrelease/2026/southamerica",
-      "added_date": "2026-03-01"
     },
     {
       "id": "r012",

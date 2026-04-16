@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-15T07:28:15.790282+00:00",
+  "last_updated": "2026-04-16T07:42:58.916749+00:00",
   "disruptions": [
     {
       "id": "d001",
@@ -60,18 +60,6 @@
       "notes": "Operations fully resumed on this route following short maintenance pause. Normal frequency restored: 7x weekly.",
       "source": "https://www.airarabia.com/en/travel-updates",
       "added_date": "2026-03-05"
-    },
-    {
-      "id": "d007",
-      "airline": "Emirates",
-      "origin": "Dubai",
-      "destination": "Nairobi",
-      "route": "Dubai → Nairobi",
-      "status": "operating",
-      "effective_date": "2026-03-01",
-      "notes": "Full daily service restored on EK722. Additional codeshare frequencies available via partner carriers.",
-      "source": "https://www.emirates.com/media-centre",
-      "added_date": "2026-03-01"
     },
     {
       "id": "d008",

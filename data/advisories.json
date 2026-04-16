@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-15T07:28:15.790282+00:00",
+  "last_updated": "2026-04-16T07:42:58.916749+00:00",
   "advisories": [
     {
       "id": "adv001",
@@ -60,18 +60,6 @@
       "expiry_date": "2026-03-20",
       "source": "https://www.gaca.gov.sa/notam",
       "added_date": "2026-03-10"
-    },
-    {
-      "id": "adv006",
-      "type": "info",
-      "title": "King Abdulaziz International Airport: New International Terminal Gates",
-      "body": "Jeddah's King Abdulaziz International Airport has opened 12 additional remote stands in the International Terminal South pier, increasing peak-hour capacity by 15%. No passenger disruption is expected. Buses are in operation to remote stands G25–G36.",
-      "airline": "All carriers operating JED",
-      "airports": "JED",
-      "effective_date": "2026-03-01",
-      "expiry_date": null,
-      "source": "https://www.jed-airport.com/news",
-      "added_date": "2026-03-01"
     },
     {
       "id": "adv007",
