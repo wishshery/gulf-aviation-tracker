@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-18T07:04:28.291406+00:00",
+  "last_updated": "2026-04-19T07:16:19.426277+00:00",
   "advisories": [
     {
       "id": "adv001",
@@ -60,18 +60,6 @@
       "expiry_date": "2026-03-20",
       "source": "https://www.gaca.gov.sa/notam",
       "added_date": "2026-03-10"
-    },
-    {
-      "id": "adv007",
-      "type": "info",
-      "title": "Qatar Airways: Upgraded Summer Schedule 2026",
-      "body": "Qatar Airways has published its IATA Summer 2026 schedule with additions of over 15 new destinations and frequency increases on 40 existing routes. The summer schedule runs from 29 March through 24 October 2026. Passengers with existing bookings should verify connecting times as minimum connect time at DOH changes on 29 March.",
-      "airline": "Qatar Airways",
-      "airports": "DOH",
-      "effective_date": "2026-03-29",
-      "expiry_date": "2026-10-24",
-      "source": "https://www.qatarairways.com/summer2026",
-      "added_date": "2026-03-04"
     }
   ]
 }
