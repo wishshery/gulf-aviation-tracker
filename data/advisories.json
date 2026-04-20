@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-19T07:16:19.426277+00:00",
+  "last_updated": "2026-04-20T08:03:28.588153+00:00",
   "advisories": [
     {
       "id": "adv001",
@@ -24,18 +24,6 @@
       "expiry_date": "2026-03-26",
       "source": "https://www.dubaiairports.ae/passenger-notices",
       "added_date": "2026-03-09"
-    },
-    {
-      "id": "adv003",
-      "type": "info",
-      "title": "Hamad International Airport: New Biometric Gates Operational",
-      "body": "Hamad International Airport has activated biometric fast-track immigration gates in Concourses B and C from 5 March 2026. Travelers with Qatar ID or pre-registered biometrics can use automated lanes, significantly reducing processing time.",
-      "airline": "Qatar Airways",
-      "airports": "DOH",
-      "effective_date": "2026-03-05",
-      "expiry_date": null,
-      "source": "https://www.qatarairports.com/news",
-      "added_date": "2026-03-05"
     },
     {
       "id": "adv004",
