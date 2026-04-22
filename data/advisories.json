@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-21T07:46:42.985893+00:00",
+  "last_updated": "2026-04-22T07:43:23.233884+00:00",
   "advisories": [
     {
       "id": "adv001",
@@ -24,18 +24,6 @@
       "expiry_date": "2026-03-26",
       "source": "https://www.dubaiairports.ae/passenger-notices",
       "added_date": "2026-03-09"
-    },
-    {
-      "id": "adv004",
-      "type": "warning",
-      "title": "Emirates: Schedule Adjustment — EK Flights via Nairobi",
-      "body": "Emirates has adjusted departure times for EK flight series operating via Nairobi effective 8 March – 30 April 2026 due to runway resurfacing work at JKIA. EK722 departs Dubai at 23:30 (was 22:00). EK723 departs Nairobi at 08:15 (was 06:30). Passengers should verify their itineraries.",
-      "airline": "Emirates",
-      "airports": "DXB, NBO",
-      "effective_date": "2026-03-08",
-      "expiry_date": "2026-04-30",
-      "source": "https://www.emirates.com/travel-updates/nairobi-schedule",
-      "added_date": "2026-03-07"
     },
     {
       "id": "adv005",

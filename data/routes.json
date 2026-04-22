@@ -1,19 +1,6 @@
 {
-  "last_updated": "2026-04-21T07:46:42.985893+00:00",
+  "last_updated": "2026-04-22T07:43:23.233884+00:00",
   "routes": [
-    {
-      "id": "r004",
-      "airline": "Flydubai",
-      "origin": "Dubai",
-      "destination": "Trabzon",
-      "status": "new",
-      "start_date": "2026-04-10",
-      "frequency": "3x weekly",
-      "aircraft": "Boeing 737 MAX 8",
-      "description": "Flydubai adds Trabzon to its growing Turkish network, joining existing services to Istanbul, Ankara, and Bodrum. Operates Tuesday, Thursday, Saturday.",
-      "source": "https://www.flydubai.com/en/media/press-releases",
-      "added_date": "2026-03-07"
-    },
     {
       "id": "r005",
       "airline": "Air Arabia",
