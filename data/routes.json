@@ -1,18 +1,4 @@
 {
-  "last_updated": "2026-04-22T07:43:23.233884+00:00",
-  "routes": [
-    {
-      "id": "r005",
-      "airline": "Air Arabia",
-      "origin": "Sharjah",
-      "destination": "Kozhikode",
-      "status": "new",
-      "start_date": "2026-04-20",
-      "frequency": "7x weekly",
-      "aircraft": "Airbus A320",
-      "description": "Air Arabia reinforces South India connectivity with daily Sharjah–Calicut (Kozhikode) service catering to the large Kerala expat community in the UAE.",
-      "source": "https://www.airarabia.com/press-releases",
-      "added_date": "2026-03-08"
-    }
-  ]
+  "last_updated": "2026-04-23T07:48:45.028191+00:00",
+  "routes": []
 }

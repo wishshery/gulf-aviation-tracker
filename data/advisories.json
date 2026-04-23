@@ -1,18 +1,6 @@
 {
-  "last_updated": "2026-04-22T07:43:23.233884+00:00",
+  "last_updated": "2026-04-23T07:48:45.028191+00:00",
   "advisories": [
-    {
-      "id": "adv001",
-      "type": "warning",
-      "title": "Airspace Advisory: Extended Routing Affecting Gulf-Europe Flights",
-      "body": "Several Gulf carriers including Emirates, Qatar Airways, and Etihad are operating on extended routing profiles affecting flights between Gulf airports and European destinations. Passengers should expect journey time increases of 50–90 minutes on selected routes. Check your airline's app for real-time flight updates.",
-      "airline": "Emirates, Qatar Airways, Etihad",
-      "airports": "DXB, DOH, AUH",
-      "effective_date": "2026-03-08",
-      "expiry_date": "2026-03-25",
-      "source": "https://www.gcaa.gov.ae/notam",
-      "added_date": "2026-03-08"
-    },
     {
       "id": "adv002",
       "type": "info",
