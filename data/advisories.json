@@ -1,18 +1,6 @@
 {
-  "last_updated": "2026-04-23T07:48:45.028191+00:00",
+  "last_updated": "2026-04-24T08:00:08.563700+00:00",
   "advisories": [
-    {
-      "id": "adv002",
-      "type": "info",
-      "title": "Dubai International: Terminal 2 Scheduled Maintenance",
-      "body": "Dubai International Airport Terminal 2 is undergoing scheduled infrastructure maintenance 22–26 March 2026. Some check-in desks will be consolidated. Flydubai passengers check-in is temporarily relocated to Hall A East. Allow additional 30 minutes when traveling through Terminal 2 during this period.",
-      "airline": "Flydubai, Air Arabia",
-      "airports": "DXB Terminal 2",
-      "effective_date": "2026-03-22",
-      "expiry_date": "2026-03-26",
-      "source": "https://www.dubaiairports.ae/passenger-notices",
-      "added_date": "2026-03-09"
-    },
     {
       "id": "adv005",
       "type": "critical",

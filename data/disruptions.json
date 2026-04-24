@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-23T07:48:45.028191+00:00",
+  "last_updated": "2026-04-24T08:00:08.563700+00:00",
   "disruptions": [
     {
       "id": "d001",
@@ -36,18 +36,6 @@
       "notes": "Service operating normally. Minor NOTAM in effect for ATC advisory; no passenger impact.",
       "source": "https://www.etihad.com/en-ae/fly-etihad/travel-information",
       "added_date": "2026-03-10"
-    },
-    {
-      "id": "d008",
-      "airline": "Kuwait Airways",
-      "origin": "Kuwait City",
-      "destination": "London Heathrow",
-      "route": "Kuwait City → London Heathrow",
-      "status": "diverted",
-      "effective_date": "2026-03-09",
-      "notes": "KU101 diverted to Istanbul Atatürk for medical emergency. Flight resumed after 2h 15m delay. Scheduled to return to normal ops from 11 March.",
-      "source": "https://www.kuwaitairways.com/alerts",
-      "added_date": "2026-03-09"
     }
   ]
 }
