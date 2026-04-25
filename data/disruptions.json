@@ -1,41 +1,4 @@
 {
-  "last_updated": "2026-04-24T08:00:08.563700+00:00",
-  "disruptions": [
-    {
-      "id": "d001",
-      "airline": "Emirates",
-      "origin": "London Heathrow",
-      "destination": "Dubai",
-      "route": "London Heathrow → Dubai",
-      "status": "rerouted",
-      "effective_date": "2026-03-08",
-      "notes": "Flights rerouted south via Arabian Sea avoiding certain airspace; journey time extended by approx. 1 hour 20 minutes.",
-      "source": "https://www.emirates.com/media-centre/operational-updates",
-      "added_date": "2026-03-10"
-    },
-    {
-      "id": "d002",
-      "airline": "Qatar Airways",
-      "origin": "Doha",
-      "destination": "Multiple European",
-      "route": "Doha → European destinations",
-      "status": "delayed",
-      "effective_date": "2026-03-09",
-      "notes": "Scheduled departures experiencing average 40–60 minute delays due to high-altitude jet stream turbulence avoidance protocols.",
-      "source": "https://www.qatarairways.com/travel-alerts",
-      "added_date": "2026-03-10"
-    },
-    {
-      "id": "d003",
-      "airline": "Etihad Airways",
-      "origin": "Abu Dhabi",
-      "destination": "Karachi",
-      "route": "Abu Dhabi → Karachi",
-      "status": "operating",
-      "effective_date": "2026-03-10",
-      "notes": "Service operating normally. Minor NOTAM in effect for ATC advisory; no passenger impact.",
-      "source": "https://www.etihad.com/en-ae/fly-etihad/travel-information",
-      "added_date": "2026-03-10"
-    }
-  ]
+  "last_updated": "2026-04-25T07:12:22.515049+00:00",
+  "disruptions": []
 }

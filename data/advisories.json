@@ -1,17 +1,4 @@
 {
-  "last_updated": "2026-04-24T08:00:08.563700+00:00",
-  "advisories": [
-    {
-      "id": "adv005",
-      "type": "critical",
-      "title": "Saudi Arabia: GACA Temporary Flight Restrictions — Northern Sectors",
-      "body": "The General Authority of Civil Aviation (GACA) has issued temporary flight restrictions in northern airspace sectors effective 10–20 March 2026. This affects routing for flights between Riyadh, Tabuk, and international destinations. Airlines are filing alternative routings. Passengers on Saudia and other carriers may experience delays of 20–40 minutes.",
-      "airline": "Saudia, flyadeal, Multiple International Carriers",
-      "airports": "RUH, TUU",
-      "effective_date": "2026-03-10",
-      "expiry_date": "2026-03-20",
-      "source": "https://www.gaca.gov.sa/notam",
-      "added_date": "2026-03-10"
-    }
-  ]
+  "last_updated": "2026-04-25T07:12:22.515049+00:00",
+  "advisories": []
 }
